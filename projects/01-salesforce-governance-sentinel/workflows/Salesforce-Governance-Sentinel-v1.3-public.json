@@ -1,0 +1,824 @@
+{
+  "name": "Salesforce Governance Sentinel v1.3 - Secure Governed Agentic",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -3040,
+        176
+      ],
+      "id": "5ba09d44-842f-40c4-a23d-9a02dd9acb1c",
+      "name": "When clicking â€˜Execute workflowâ€™"
+    },
+    {
+      "parameters": {
+        "url": "=https://YOUR_MY_DOMAIN.my.salesforce.com/services/data/v61.0/query/?q=SELECT+Id,ApiName,Label,NamespacePrefix,ActiveVersionId,LatestVersionId,ProcessType,Description+FROM+FlowDefinitionView+WHERE+NamespacePrefix+=+null",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "oAuth2Api",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -2608,
+        784
+      ],
+      "id": "073ab730-d5b9-4139-8be6-20361814eda0",
+      "name": "Test Salesforce Connection",
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "oAuth2Api": {
+          "name": "Salesforce - VANTIX Client Credentials"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://YOUR_MY_DOMAIN.my.salesforce.com/services/data/v61.0/query/?q=SELECT+Id,ApiName,Label,NamespacePrefix,ActiveVersionId,LatestVersionId,ProcessType,Description+FROM+FlowDefinitionView+WHERE+NamespacePrefix+=+null",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "oAuth2Api",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -2544,
+        208
+      ],
+      "id": "7a6ca9a8-5a71-4904-ace6-627997bc55cc",
+      "name": "Get Flows - REST API",
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "oAuth2Api": {
+          "name": "Salesforce - VANTIX Client Credentials"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// ============================================================\n// SYNTHETIC TEST FIXTURE â€” NOT ORG DATA\n// Purpose: stress-test the DPMO calculation, RAID scoring, and\n// AI severity-judgment logic across the full range of possible\n// defect combinations and business contexts.\n// This data is fabricated for pipeline validation only and must\n// never be presented as real governance findings.\n// ============================================================\n\nconst syntheticRecords = [\n  // 0 defects â€” clean flow\n  {\n    Id: 'SYN001', ApiName: 'Send_Renewal_Reminder_Email', Label: 'Send Renewal Reminder Email',\n    NamespacePrefix: null, ProcessType: 'AutoLaunchedFlow',\n    Description: 'Sends an automated renewal reminder email 30 days before contract expiry.',\n    ActiveVersionId: 'v1', LatestVersionId: 'v1'\n  },\n  // 1 defect â€” missing description only (matches real pattern found today)\n  {\n    Id: 'SYN002', ApiName: 'Update_Account_Tier', Label: 'Update Account Tier',\n    NamespacePrefix: null, ProcessType: 'AutoLaunchedFlow',\n    Description: null,\n    ActiveVersionId: 'v3', LatestVersionId: 'v3'\n  },\n  // 1 defect â€” no active version only\n  {\n    Id: 'SYN003', ApiName: 'Escalate_Support_Case', Label: 'Escalate Support Case',\n    NamespacePrefix: null, ProcessType: 'AutoLaunchedFlow',\n    Description: 'Escalates a support case to tier-2 when SLA breach risk is detected.',\n    ActiveVersionId: null, LatestVersionId: 'v2'\n  },\n  // 2 defects â€” missing description + stale version, on a customer-facing screen flow\n  {\n    Id: 'SYN004', ApiName: 'Customer_Refund_Approval', Label: 'Customer Refund Approval',\n    NamespacePrefix: null, ProcessType: 'Flow', // Screen Flow â€” user-facing\n    Description: null,\n    ActiveVersionId: 'v4', LatestVersionId: 'v6'\n  },\n  // 3 defects â€” CRITICAL candidate: revenue-relevant, silent background automation,\n  // undocumented, never activated, and edited since\n  {\n    Id: 'SYN005', ApiName: 'Apply_Discount_Approval_Bypass', Label: 'Apply Discount Approval Bypass',\n    NamespacePrefix: null, ProcessType: 'AutoLaunchedFlow',\n    Description: null,\n    ActiveVersionId: null, LatestVersionId: 'v2'\n  },\n  // 2 defects â€” but low business-risk context (internal survey, not revenue/security)\n  {\n    Id: 'SYN006', ApiName: 'Employee_Lunch_Poll', Label: 'Employee Lunch Poll',\n    NamespacePrefix: null, ProcessType: 'Survey',\n    Description: null,\n    ActiveVersionId: null, LatestVersionId: 'v1'\n  },\n  // 1 defect â€” stale version only, on a security-relevant flow (interesting edge case:\n  // low defect count, but high business-risk context)\n  {\n    Id: 'SYN007', ApiName: 'Deactivate_User_Access_On_Exit', Label: 'Deactivate User Access on Exit',\n    NamespacePrefix: null, ProcessType: 'AutoLaunchedFlow',\n    Description: 'Deactivates a user\\'s Salesforce access when their employment status changes to Terminated.',\n    ActiveVersionId: 'v1', LatestVersionId: 'v2'\n  }\n];\n\nreturn [{\n  json: {\n    isSynthetic: true,\n    warning: 'SYNTHETIC TEST FIXTURE â€” fabricated data for pipeline validation only. Not real org findings.',\n    totalSize: syntheticRecords.length,\n    done: true,\n    records: syntheticRecords\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2672,
+        512
+      ],
+      "id": "2a5d30c3-6db1-46fe-869d-58d702a57292",
+      "name": "Synthetic Test Fixture - Flows"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ============================================================\n// METHODOLOGY â€” Flows Governance DPMO Calculation\n// Unit: one custom (non-managed-package) Salesforce Flow,\n//       identified by NamespacePrefix === null\n// Defect Opportunities per unit (3):\n//   1. Missing Description  (Description === null)\n//   2. No Active Version    (ActiveVersionId === null)\n//   3. Stale Active Version (ActiveVersionId !== LatestVersionId,\n//                            only checked when ActiveVersionId exists)\n// DPMO = (Total Defects / Total Opportunities) x 1,000,000\n// Sigma Level = NORMSINV(1 - DPMO/1,000,000) + 1.5\n//   (standard 1.5-sigma long-term shift convention)\n// Inverse normal CDF implemented via Acklam's algorithm\n// (rational approximation, standard reference method â€”\n// no lookup table, no LLM estimation).\n// ============================================================\n\nconst runContext = $('Initialize Run Context').first().json;\nconst inputPayload = $input.first().json;\nif (!Array.isArray(inputPayload.records)) {\n  throw new Error('Salesforce response schema invalid: records must be an array.');\n}\nconst allRecords = inputPayload.records;\n\n// Rule 12 / scoping decision: only in-scope custom flows are\n// counted as governance measurement units. Managed-package\n// flows are excluded â€” documented in METHODOLOGY.md.\nconst inScopeFlows = allRecords.filter(r => r.NamespacePrefix === null);\n\nconst OPPORTUNITIES_PER_UNIT = 3;\nconst totalUnits = inScopeFlows.length;\nconst totalOpportunities = totalUnits * OPPORTUNITIES_PER_UNIT;\n\nconst flowResults = inScopeFlows.map(flow => {\n  const defects = [];\n\n  if (flow.Description === null) {\n    defects.push({\n      check: 'Missing Description',\n      detail: 'Flow has no description â€” fails documentation/discoverability governance.'\n    });\n  }\n\n  if (flow.ActiveVersionId === null) {\n    defects.push({\n      check: 'No Active Version',\n      detail: 'Flow has a Latest Version but no Active Version â€” built but never activated, or deactivated.'\n    });\n  } else if (flow.ActiveVersionId !== flow.LatestVersionId) {\n    defects.push({\n      check: 'Stale Active Version',\n      detail: 'The active version does not match the latest version â€” live behavior differs from builder state.'\n    });\n  }\n\n  return {\n    apiName: flow.ApiName,\n    label: flow.Label,\n    processType: flow.ProcessType,\n    defectCount: defects.length,\n    defects: defects\n  };\n});\n\nconst totalDefects = flowResults.reduce((sum, f) => sum + f.defectCount, 0);\nconst dpmo = totalOpportunities > 0\n  ? (totalDefects / totalOpportunities) * 1000000\n  : 0;\n\n// ---- Inverse Normal CDF: Acklam's algorithm ----\n// Standard rational approximation for the probit function,\n// accurate to ~1.15e-9. Reference: Peter Acklam's public-domain\n// algorithm for the inverse of the standard normal CDF.\nfunction inverseNormalCDF(p) {\n  if (p <= 0) return -Infinity;\n  if (p >= 1) return Infinity;\n\n  const a = [-3.969683028665376e+01, 2.209460984245205e+02, -2.759285104469687e+02,\n             1.383577518672690e+02, -3.066479806614716e+01, 2.506628277459239e+00];\n  const b = [-5.447609879822406e+01, 1.615858368580409e+02, -1.556989798598866e+02,\n             6.680131188771972e+01, -1.328068155288572e+01];\n  const c = [-7.784894002430293e-03, -3.223964580411365e-01, -2.400758277161838e+00,\n             -2.549732539343734e+00, 4.374664141464968e+00, 2.938163982698783e+00];\n  const d = [7.784695709041462e-03, 3.224671290700398e-01, 2.445134137142996e+00,\n             3.754408661907416e+00];\n\n  const pLow = 0.02425;\n  const pHigh = 1 - pLow;\n  let q, r;\n\n  if (p < pLow) {\n    q = Math.sqrt(-2 * Math.log(p));\n    return (((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5]) /\n           ((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);\n  } else if (p <= pHigh) {\n    q = p - 0.5;\n    r = q * q;\n    return (((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5])*q /\n           (((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1);\n  } else {\n    q = Math.sqrt(-2 * Math.log(1 - p));\n    return -(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5]) /\n            ((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);\n  }\n}\n\nconst dpmoFraction = dpmo / 1000000;\n// Guard against p=1 (0 DPMO) which would make inverseNormalCDF return Infinity\nconst sigmaLevel = dpmoFraction > 0\n  ? inverseNormalCDF(1 - dpmoFraction) + 1.5\n  : 6.0; // convention: 0 measured defects reported as process ceiling, not infinite\n\nreturn [{\n  json: {\n    runId: runContext.runId,\n    startedAt: runContext.startedAt,\n    workflowVersion: runContext.workflowVersion,\n    methodology: {\n      unit: 'Custom (non-managed-package) Salesforce Flow, NamespacePrefix === null',\n      opportunitiesPerUnit: OPPORTUNITIES_PER_UNIT,\n      defectChecks: ['Missing Description', 'No Active Version', 'Stale Active Version'],\n      scopingNote: 'Managed-package flows excluded â€” org admin does not author/control them, so they cannot be a governance defect for this org.'\n    },\n    measurement: {\n      totalFlowsInOrg: allRecords.length,\n      inScopeUnits: totalUnits,\n      totalOpportunities: totalOpportunities,\n      totalDefects: totalDefects,\n      dpmo: Math.round(dpmo * 100) / 100,\n      sigmaLevel: Math.round(sigmaLevel * 1000) / 1000\n    },\n    controlChart: {\n      status: 'NOT_YET_MEASURABLE',\n      reason: 'This is baseline scan #1. I-MR (or any control chart) requires at least 2 time-ordered measurements to calculate a moving range and meaningful control limits. Fabricating limits from a single snapshot would violate measurement validity. Limits will be calculated starting from the second scan.'\n    },\n    flowDetails: flowResults\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2288,
+        224
+      ],
+      "id": "358bb17b-4a7e-4a5a-bb30-cfbd6513833a",
+      "name": "Calculate DPMO - Flows"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ============================================================\n// METHODOLOGY â€” Flows Governance DPMO Calculation\n// Unit: one custom (non-managed-package) Salesforce Flow,\n//       identified by NamespacePrefix === null\n// Defect Opportunities per unit (3):\n//   1. Missing Description  (Description === null)\n//   2. No Active Version    (ActiveVersionId === null)\n//   3. Stale Active Version (ActiveVersionId !== LatestVersionId,\n//                            only checked when ActiveVersionId exists)\n// DPMO = (Total Defects / Total Opportunities) x 1,000,000\n// Sigma Level = NORMSINV(1 - DPMO/1,000,000) + 1.5\n//   (standard 1.5-sigma long-term shift convention)\n// Inverse normal CDF implemented via Acklam's algorithm\n// (rational approximation, standard reference method â€”\n// no lookup table, no LLM estimation).\n// ============================================================\n\nconst allRecords = $input.first().json.records;\n\n// Rule 12 / scoping decision: only in-scope custom flows are\n// counted as governance measurement units. Managed-package\n// flows are excluded â€” documented in METHODOLOGY.md.\nconst inScopeFlows = allRecords.filter(r => r.NamespacePrefix === null);\n\nconst OPPORTUNITIES_PER_UNIT = 3;\nconst totalUnits = inScopeFlows.length;\nconst totalOpportunities = totalUnits * OPPORTUNITIES_PER_UNIT;\n\nconst flowResults = inScopeFlows.map(flow => {\n  const defects = [];\n\n  if (flow.Description === null) {\n    defects.push({\n      check: 'Missing Description',\n      detail: 'Flow has no description â€” fails documentation/discoverability governance.'\n    });\n  }\n\n  if (flow.ActiveVersionId === null) {\n    defects.push({\n      check: 'No Active Version',\n      detail: 'Flow has a Latest Version but no Active Version â€” built but never activated, or deactivated.'\n    });\n  } else if (flow.ActiveVersionId !== flow.LatestVersionId) {\n    defects.push({\n      check: 'Stale Active Version',\n      detail: 'The active version does not match the latest version â€” live behavior differs from builder state.'\n    });\n  }\n\n  return {\n    apiName: flow.ApiName,\n    label: flow.Label,\n    processType: flow.ProcessType,\n    defectCount: defects.length,\n    defects: defects\n  };\n});\n\nconst totalDefects = flowResults.reduce((sum, f) => sum + f.defectCount, 0);\nconst dpmo = totalOpportunities > 0\n  ? (totalDefects / totalOpportunities) * 1000000\n  : 0;\n\n// ---- Inverse Normal CDF: Acklam's algorithm ----\n// Standard rational approximation for the probit function,\n// accurate to ~1.15e-9. Reference: Peter Acklam's public-domain\n// algorithm for the inverse of the standard normal CDF.\nfunction inverseNormalCDF(p) {\n  if (p <= 0) return -Infinity;\n  if (p >= 1) return Infinity;\n\n  const a = [-3.969683028665376e+01, 2.209460984245205e+02, -2.759285104469687e+02,\n             1.383577518672690e+02, -3.066479806614716e+01, 2.506628277459239e+00];\n  const b = [-5.447609879822406e+01, 1.615858368580409e+02, -1.556989798598866e+02,\n             6.680131188771972e+01, -1.328068155288572e+01];\n  const c = [-7.784894002430293e-03, -3.223964580411365e-01, -2.400758277161838e+00,\n             -2.549732539343734e+00, 4.374664141464968e+00, 2.938163982698783e+00];\n  const d = [7.784695709041462e-03, 3.224671290700398e-01, 2.445134137142996e+00,\n             3.754408661907416e+00];\n\n  const pLow = 0.02425;\n  const pHigh = 1 - pLow;\n  let q, r;\n\n  if (p < pLow) {\n    q = Math.sqrt(-2 * Math.log(p));\n    return (((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5]) /\n           ((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);\n  } else if (p <= pHigh) {\n    q = p - 0.5;\n    r = q * q;\n    return (((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5])*q /\n           (((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1);\n  } else {\n    q = Math.sqrt(-2 * Math.log(1 - p));\n    return -(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5]) /\n            ((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);\n  }\n}\n\nconst dpmoFraction = dpmo / 1000000;\n// Guard against p=1 (0 DPMO) which would make inverseNormalCDF return Infinity\nconst sigmaLevel = dpmoFraction > 0\n  ? inverseNormalCDF(1 - dpmoFraction) + 1.5\n  : 6.0; // convention: 0 measured defects reported as process ceiling, not infinite\n\nreturn [{\n  json: {\n    methodology: {\n      unit: 'Custom (non-managed-package) Salesforce Flow, NamespacePrefix === null',\n      opportunitiesPerUnit: OPPORTUNITIES_PER_UNIT,\n      defectChecks: ['Missing Description', 'No Active Version', 'Stale Active Version'],\n      scopingNote: 'Managed-package flows excluded â€” org admin does not author/control them, so they cannot be a governance defect for this org.'\n    },\n    measurement: {\n      totalFlowsInOrg: allRecords.length,\n      inScopeUnits: totalUnits,\n      totalOpportunities: totalOpportunities,\n      totalDefects: totalDefects,\n      dpmo: Math.round(dpmo * 100) / 100,\n      sigmaLevel: Math.round(sigmaLevel * 1000) / 1000\n    },\n    controlChart: {\n      status: 'NOT_YET_MEASURABLE',\n      reason: 'This is baseline scan #1. I-MR (or any control chart) requires at least 2 time-ordered measurements to calculate a moving range and meaningful control limits. Fabricating limits from a single snapshot would violate measurement validity. Limits will be calculated starting from the second scan.'\n    },\n    flowDetails: flowResults\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2368,
+        464
+      ],
+      "id": "a892235d-0e48-4902-a54a-b79d0d5dc193",
+      "name": "Calculate DPMO - Synthetic (Test)"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googlePalmApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"contents\": [\n    {\n      \"role\": \"user\",\n      \"parts\": [\n        {\n          \"text\": {{ JSON.stringify($json.promptText) }}\n        }\n      ]\n    }\n  ],\n  \"generationConfig\": {\n    \"temperature\": 0.2,\n    \"responseMimeType\": \"application/json\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -1632,
+        224
+      ],
+      "id": "0e160a75-1c29-4b25-a2f9-7cfcfd95cf76",
+      "name": "AI Severity Judgment - Gemini",
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "googlePalmApi": {
+          "name": "Gemini - Vantix Governance Sentinel"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const source = $input.first().json;\nconst issueLog = source.issueLog;\nif (!Array.isArray(issueLog)) throw new Error('Issue log must be an array.');\n\nconst issuesForPrompt = issueLog.map(r => ({\n  issueId: r.issueId,\n  relatedFlowLabel: r.relatedFlowLabel,\n  processType: r.processType,\n  defectsFound: r.defectsFound\n}));\n\nconst promptText = `You are a Salesforce governance risk analyst. You will be given a list of Issue entries, each describing a Salesforce Flow with governance defects found by automated code analysis. Your job is ONLY to judge business Impact and overall Severity for each entry -- you must NOT recalculate or second-guess the defect findings themselves, and you must NOT invent any facts not given to you.\n\nFor EACH entry, reason about: what the flow's name and label suggest it does in the business (e.g. financial approval, security/access control, customer-facing, internal/trivial); its processType (background automation vs user-facing vs survey); and which specific defects were found. Then assign:\n\n- impact: one of \"Low\", \"Medium\", \"High\" -- how much business harm could result if this governance gap causes a real problem (NOT how many defects were found -- a single defect on a financial-approval flow can be higher impact than two defects on a trivial internal flow).\n- impactRationale: one or two sentences explaining WHY, referencing the specific flow's apparent purpose.\n- severity: \"Critical\" or \"Minor\" -- Critical means this should be escalated immediately for remediation; Minor means it can go into a standard backlog with no urgency. Base this on the combination of the defects found AND your impact judgment, not on defect count alone.\n- confidence: a number 0.0-1.0 reflecting how confident you are in this judgment given the limited information (flow name/label alone, no access to the actual flow logic).\n\nReturn ONLY a valid JSON array, no markdown formatting, no code fences, no explanation text outside the JSON. Each object must have exactly these keys: issueId, impact, impactRationale, severity, confidence.\n\nHere is the Issue log to assess:\n\n${JSON.stringify(issuesForPrompt)}`;\n\nreturn [{ json: { runId: source.runId, promptText, originalIssueLog: issueLog } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1824,
+        240
+      ],
+      "id": "b0214c61-898f-43d4-8db8-1b0eceae58a4",
+      "name": "Build Gemini Prompt"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.routingDecision }}",
+                    "rightValue": "Critical",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "189daf8b-090e-41c0-af48-4e76ef8953a0"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Critical"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "cbbec076-611f-4969-a621-096971532658",
+                    "leftValue": "={{ $json.routingDecision }}",
+                    "rightValue": "Minor",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Minor"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "44f0f52b-5481-4152-97c0-f19a46b4a5c8",
+                    "leftValue": "={{ $json.routingDecision }}",
+                    "rightValue": "Review Required",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Review Required"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -320,
+        80
+      ],
+      "id": "146dbf85-f53c-4b5d-9156-bbcacb513c15",
+      "name": "Route by Severity"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// ============================================================\n// NODE: Generate Story - Critical\n// Execution mode: Run Once for Each Item\n//\n// Governance rules:\n// - Only validated Critical findings can generate a story.\n// - AI does not assign story points.\n// - Final scheduling and closure require human decisions.\n// ============================================================\n\nconst entry = $json;\nconst runId = $('Initialize Run Context').first().json.runId;\n\nconst defects = Array.isArray(entry.defectsFound)\n  ? entry.defectsFound\n  : [];\n\nconst defectsText =\n  defects.length > 0\n    ? defects.join(', ')\n    : 'Defect details unavailable';\n\nconst impactRationale =\n  typeof entry.impact?.rationale === 'string' &&\n  entry.impact.rationale.trim().length > 0\n    ? entry.impact.rationale.trim()\n    : 'Human review is required to confirm the business consequence.';\n\n// Defense-in-depth validation.\n// A record must be cleanly validated and explicitly routed as Critical.\nif (\n  entry.validationFlag !== 'OK' ||\n  entry.routingDecision !== 'Critical'\n) {\n  return {\n    json: {\n      runId,\n      storyId: `STORY-${entry.issueId}-FLAGGED`,\n      status: 'NOT GENERATED - validation failed or record was misrouted',\n      reason:\n        entry.validationFlag ||\n        'The record did not meet the Critical routing requirements.',\n      linkedIssueId: entry.issueId,\n      routingDecision: entry.routingDecision,\n      note:\n        'No Critical user story was generated. The finding must be routed to human review.'\n    }\n  };\n}\n\nconst acceptanceCriteria = [\n  `All listed governance defects (${defectsText}) are resolved.`,\n  'A follow-up metadata scan confirms that the identified defects are no longer present.',\n  'A human Salesforce administrator reviews the proposed remediation before implementation.',\n  'The remediation does not introduce regression, security, access or deployment issues.',\n  'The completed remediation and verification evidence are linked to the source Issue record.',\n  'Current-sprint placement is proposed because of the Critical classification, but final scheduling remains a human team decision.'\n];\n\n// High-impact findings require an additional reviewer.\nif (entry.impact?.label === 'High') {\n  acceptanceCriteria.push(\n    'A second administrator or designated approver reviews the remediation before the Issue is closed.'\n  );\n}\n\nconst userStory = {\n  runId,\n\n  storyId: `STORY-${entry.issueId}`,\n\n  storyType: 'Governance Remediation',\n\n  priority: 'IMMEDIATE ESCALATION',\n\n  title:\n    `[CRITICAL] Remediate governance gap in ` +\n    `\"${entry.relatedFlowLabel}\"`,\n\n  userStoryText:\n    `As a Salesforce org administrator, I need the ` +\n    `\"${entry.relatedFlowLabel}\" Flow governance defects ` +\n    `(${defectsText}) remediated, so that the observed ` +\n    `governance issue is resolved and its potential business ` +\n    `consequence (${impactRationale}) is reduced.`,\n\n  acceptanceCriteria,\n\n  suggestedEffortBand: 'TBD - pending team estimation',\n\n  effortBasis:\n    'Story points are intentionally not derived from priority, ' +\n    'impact, confidence or any governance score. The delivery ' +\n    'team must estimate effort during backlog refinement.',\n\n  proposedDeliveryTreatment:\n    'Propose for current-sprint remediation and immediate human review.',\n\n  schedulingAuthority:\n    'Human Product Owner, Salesforce owner or designated delivery lead.',\n\n  closureAuthority:\n    'Human Salesforce administrator or designated approver.',\n\n  linkedIssueId: entry.issueId,\n\n  linkedPriorityScore: entry.priorityScore ?? null,\n\n  sourceFlow: {\n    apiName: entry.relatedFlow,\n    label: entry.relatedFlowLabel,\n    processType: entry.processType\n  },\n\n  observedDefects: defects,\n\n  aiAssessment: {\n    impact: entry.impact?.label ?? null,\n    impactScore: entry.impact?.score ?? null,\n    rationale: impactRationale,\n    severity: entry.severity,\n    confidence: entry.confidence\n  },\n\n  aiValidationFlag: entry.validationFlag,\n\n  routingDecision: entry.routingDecision,\n\n  humanApprovalRequired: true,\n\n  status: 'DRAFT - AWAITING HUMAN APPROVAL',\n\n  auditNote:\n    'This story was drafted automatically from a validated ' +\n    'Critical governance finding. AI did not approve implementation, ' +\n    'assign story points or commit the item to a sprint.'\n};\n\nreturn {\n  json: userStory\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -64,
+        -128
+      ],
+      "id": "3603e6d9-ce13-4916-8234-a36edfeaa617",
+      "name": "Generate Story - Critical"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// ============================================================\n// NODE: Generate Story - Minor\n// Execution mode: Run Once for Each Item\n//\n// Governance rules:\n// - Only validated Minor findings can generate a story.\n// - AI does not assign story points.\n// - Backlog placement remains a human decision.\n// ============================================================\n\nconst entry = $json;\nconst runId = $('Initialize Run Context').first().json.runId;\n\nconst defects = Array.isArray(entry.defectsFound)\n  ? entry.defectsFound\n  : [];\n\nconst defectsText =\n  defects.length > 0\n    ? defects.join(', ')\n    : 'Defect details unavailable';\n\nconst impactRationale =\n  typeof entry.impact?.rationale === 'string' &&\n  entry.impact.rationale.trim().length > 0\n    ? entry.impact.rationale.trim()\n    : 'Human review is required to confirm the business consequence.';\n\n// Defense-in-depth validation.\n// A record must be cleanly validated and explicitly routed as Minor.\nif (\n  entry.validationFlag !== 'OK' ||\n  entry.routingDecision !== 'Minor'\n) {\n  return {\n    json: {\n      runId,\n      storyId: `STORY-${entry.issueId}-FLAGGED`,\n      status: 'NOT GENERATED - validation failed or record was misrouted',\n      reason:\n        entry.validationFlag ||\n        'The record did not meet the Minor routing requirements.',\n      linkedIssueId: entry.issueId,\n      routingDecision: entry.routingDecision,\n      note:\n        'No Minor user story was generated. The finding must be routed to human review.'\n    }\n  };\n}\n\nconst userStory = {\n  runId,\n\n  storyId: `STORY-${entry.issueId}`,\n\n  storyType: 'Governance Improvement',\n\n  priority: 'BACKLOG - NO IMMEDIATE URGENCY',\n\n  title:\n    `Improve governance hygiene for ` +\n    `\"${entry.relatedFlowLabel}\"`,\n\n  userStoryText:\n    `As a Salesforce org administrator, I want the ` +\n    `\"${entry.relatedFlowLabel}\" Flow governance issue ` +\n    `(${defectsText}) addressed during planned maintenance, ` +\n    `so that documentation, maintainability and governance ` +\n    `quality improve while accounting for the assessed business ` +\n    `context (${impactRationale}).`,\n\n  acceptanceCriteria: [\n    `All listed governance defects (${defectsText}) are resolved.`,\n    'A follow-up metadata scan confirms that the identified defects are no longer present.',\n    'The remediation is reviewed during normal backlog refinement before implementation.',\n    'The change does not introduce regression, security, access or deployment issues.',\n    'The completed remediation and verification evidence are linked to the source Issue record.',\n    'Backlog placement and sprint selection remain human team decisions.'\n  ],\n\n  suggestedEffortBand: 'TBD - pending team estimation',\n\n  effortBasis:\n    'Story points are intentionally not derived from priority, ' +\n    'impact, confidence or any governance score. The delivery ' +\n    'team must estimate effort during backlog refinement.',\n\n  proposedDeliveryTreatment:\n    'Add to the governed maintenance backlog for future prioritisation.',\n\n  schedulingAuthority:\n    'Human Product Owner, Salesforce owner or designated delivery lead.',\n\n  closureAuthority:\n    'Human Salesforce administrator or designated approver.',\n\n  linkedIssueId: entry.issueId,\n\n  linkedPriorityScore: entry.priorityScore ?? null,\n\n  sourceFlow: {\n    apiName: entry.relatedFlow,\n    label: entry.relatedFlowLabel,\n    processType: entry.processType\n  },\n\n  observedDefects: defects,\n\n  aiAssessment: {\n    impact: entry.impact?.label ?? null,\n    impactScore: entry.impact?.score ?? null,\n    rationale: impactRationale,\n    severity: entry.severity,\n    confidence: entry.confidence\n  },\n\n  aiValidationFlag: entry.validationFlag,\n\n  routingDecision: entry.routingDecision,\n\n  humanApprovalRequired: true,\n\n  status: 'DRAFT - AWAITING BACKLOG REVIEW',\n\n  auditNote:\n    'This story was drafted automatically from a validated Minor ' +\n    'governance finding. AI did not approve implementation, assign ' +\n    'story points or commit the item to a sprint.'\n};\n\nreturn {\n  json: userStory\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -64,
+        64
+      ],
+      "id": "b78f1212-4136-4aa2-b8f1-38cb31743bf1",
+      "name": "Generate Story - Minor"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "RESELECT_DPMO_SCAN_HISTORY_TABLE_AFTER_IMPORT",
+          "mode": "list",
+          "cachedResultName": "dpmo_scan_history",
+          "cachedResultUrl": null
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "scandate": "={{ $now.toISO() }}",
+            "dpmo": "={{ $json.measurement.dpmo }}",
+            "sigmalevel": "={{ $json.measurement.sigmaLevel }}",
+            "totalDefects": "={{ $json.measurement.totalDefects }}",
+            "totalOpportunities": "={{ $json.measurement.totalOpportunities }}",
+            "runid": "={{ $json.runId }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "runid",
+              "displayName": "runid",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "scandate",
+              "displayName": "scandate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "dpmo",
+              "displayName": "dpmo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "sigmalevel",
+              "displayName": "sigmalevel",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "totalDefects",
+              "displayName": "totalDefects",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "totalOpportunities",
+              "displayName": "totalOpportunities",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        -2032,
+        416
+      ],
+      "id": "2d5d7ff8-5fc4-430c-91ad-ea2a1c4d8a83",
+      "name": "Insert row"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "RESELECT_DPMO_SCAN_HISTORY_TABLE_AFTER_IMPORT",
+          "mode": "list",
+          "cachedResultName": "dpmo_scan_history",
+          "cachedResultUrl": null
+        },
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        -1824,
+        416
+      ],
+      "id": "439c532d-9a91-4811-b299-9e05c507e669",
+      "name": "Get Scan History"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ============================================================\n// NODE: Calculate Control Chart - I-MR\n// STATUS FIX: previously only distinguished n=2 from everything\n// else, so at n=4+ it silently said \"CALCULATED\" with no caveat --\n// even though our own METHODOLOGY.md cites ~20 observations as\n// the real ASQ threshold for trusting initial control limits.\n// This version checks against that actual 20-observation\n// threshold, not just \"more than 2\".\n// Execution mode: Run Once for All Items\n// ============================================================\n\nconst runContext = $('Initialize Run Context').first().json;\nconst rows = $input.all().map(item => item.json);\nrows.sort((a, b) => new Date(a.scandate) - new Date(b.scandate));\n\nconst dpmoValues = rows.map(r => parseFloat(r.dpmo));\nconst n = dpmoValues.length;\n\nif (n < 2) {\n  return [{\n    json: {\n      runId: runContext.runId,\n      controlChart: {\n        status: 'NOT_YET_MEASURABLE',\n        reason: 'Fewer than 2 time-ordered scans exist. At least 2 are required to calculate a moving range.'\n      }\n    }\n  }];\n}\n\nconst movingRanges = [];\nfor (let i = 1; i < n; i++) {\n  movingRanges.push(Math.abs(dpmoValues[i] - dpmoValues[i - 1]));\n}\n\nconst mean = dpmoValues.reduce((a, b) => a + b, 0) / n;\nconst mrBar = movingRanges.reduce((a, b) => a + b, 0) / movingRanges.length;\n\nconst D2_CONSTANT = 1.128;\nconst D4_CONSTANT = 3.267;\n\nconst sigmaEstimate = mrBar / D2_CONSTANT;\nconst iChartUCL = mean + 3 * sigmaEstimate;\nconst iChartLCL = Math.max(0, mean - 3 * sigmaEstimate);\nconst mrChartUCL = D4_CONSTANT * mrBar;\nconst mrChartLCL = 0;\n\nconst ASQ_CONFIDENCE_THRESHOLD = 20;\n\nreturn [{\n  json: {\n    runId: runContext.runId,\n    controlChart: {\n      status: n < ASQ_CONFIDENCE_THRESHOLD ? 'CALCULATED_LOW_CONFIDENCE' : 'CALCULATED',\n      confidenceNote: n < ASQ_CONFIDENCE_THRESHOLD\n        ? `Only ${n} data point(s) exist. Limits are mathematically valid (I-MR formulas require no minimum beyond n=2) but statistically low-confidence -- ${ASQ_CONFIDENCE_THRESHOLD - n} more scan(s) needed to reach the ~20-observation convention ASQ describes for trusting initial control limits.`\n        : `Calculated from ${n} time-ordered scans -- meets the general ~20-observation convention for initial control-limit confidence.`,\n      dataPoints: rows.map(r => ({ scanDate: r.scandate, dpmo: parseFloat(r.dpmo) })),\n      individualsChart: {\n        centerline: Math.round(mean * 100) / 100,\n        ucl: Math.round(iChartUCL * 100) / 100,\n        lcl: Math.round(iChartLCL * 100) / 100,\n        formula: 'UCL/LCL = mean +/- 3 * (MRbar / 1.128), d2=1.128 for n=2 subgroups'\n      },\n      movingRangeChart: {\n        centerline: Math.round(mrBar * 100) / 100,\n        ucl: Math.round(mrChartUCL * 100) / 100,\n        lcl: mrChartLCL,\n        formula: 'UCL = 3.267 * MRbar (D4=3.267 for n=2), LCL = 0 (D3=0 for n=2)'\n      }\n    }\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1568,
+        448
+      ],
+      "id": "e6526bd7-d729-4b9e-8c8d-dde060d60830",
+      "name": "Calculate Control Chart - I-MR"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ============================================================\n// NODE: Build Critique Prompt (v2 â€” calibration fix)\n// Distinguishes Impact (how important the flow sounds) from\n// Severity (how urgent THIS defect is to fix) â€” prevents the\n// critique model from flagging any Medium/High-impact + Minor-\n// severity pairing as \"inconsistent\" by default. Validated to\n// correctly Pass real benign findings AND Flag genuine urgent-harm\n// cases (see TEST-BAD-001 adversarial test).\n// Execution mode: Run Once for All Items\n// ============================================================\n\nconst source = $input.first().json;\nconst issueLog = source.issueLog;\nif (!Array.isArray(issueLog)) throw new Error('Merged issue log must be an array.');\n\nconst critiqueInput = issueLog.map(r => ({\n  issueId: r.issueId,\n  relatedFlowLabel: r.relatedFlowLabel,\n  defectsFound: r.defectsFound,\n  assignedImpact: r.impact.label,\n  impactRationale: r.impact.rationale,\n  assignedSeverity: r.severity\n}));\n\nconst promptText = `You are a QA reviewer checking another analyst's risk assessments for internal consistency. You are NOT re-assessing the flows from scratch -- you are ONLY checking whether the given rationale actually supports the given impact/severity, or whether there's a genuine logical mismatch.\n\nIMPORTANT CALIBRATION NOTE: Impact and Severity are NOT required to move in lockstep. Impact measures how important the flow sounds; Severity measures how URGENT this specific defect is to fix. A Medium or even High-impact flow can still be legitimately \"Minor\" severity if the defect itself is low-complexity and represents no active harm (e.g., a missing description on an otherwise working, active flow) -- do not flag a mismatch just because impact isn't \"Low\". Only flag a genuine inconsistency when the rationale text ITSELF describes something urgent, actively broken, or actively risky (e.g., a flow with no active version currently failing, a security/financial control currently bypassed) that contradicts a no-rush \"Minor\" classification.\n\nExample of a CORRECT Pass (do not flag this pattern): impact=\"Medium\", severity=\"Minor\", rationale=\"This flow supports an important sales process. A missing description could cause confusion during future maintenance.\" -- this is consistent, because the actual defect (missing description) is low-urgency regardless of the flow's importance.\n\nExample of a CORRECT Flag: impact=\"High\", severity=\"Minor\", rationale=\"This flow has no active version and currently fails to process customer refunds, risking financial and compliance exposure.\" -- this is a genuine mismatch, because the rationale describes active, ongoing harm that warrants urgency.\n\nFor EACH entry, check: does the impactRationale describe an ACTIVE or URGENT problem that contradicts the assigned severity? Flag only genuine mismatches under that test -- not every case where impact is above \"Low\".\n\nReturn ONLY a valid JSON array, no markdown, no extra text. Each object must have exactly: issueId, consistencyCheck (\"Pass\" or \"Flag\"), reviewNote (a short explanation if flagged, or \"Consistent\" if passed).\n\nHere are the assessments to review:\n\n${JSON.stringify(critiqueInput)}`;\n\nreturn [{ json: { runId: source.runId, promptText, originalIssueLog: issueLog } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1248,
+        64
+      ],
+      "id": "9d7f33d8-158a-4582-82f8-13b5e38497cb",
+      "name": "Build Critique Prompt"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googlePalmApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"contents\": [\n    {\n      \"role\": \"user\",\n      \"parts\": [\n        {\n          \"text\": {{ JSON.stringify($json.promptText) }}\n        }\n      ]\n    }\n  ],\n  \"generationConfig\": {\n    \"temperature\": 0.2,\n    \"responseMimeType\": \"application/json\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -1088,
+        288
+      ],
+      "id": "807259d7-1837-4c21-a36b-bdbfaf5b4e65",
+      "name": "AI Critique - Gemini",
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "googlePalmApi": {
+          "name": "Gemini - Vantix Governance Sentinel"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Governed critique merge with non-blocking human-review fallback.\n// Execution mode: Run Once for All Items\nconst ALLOWED_CONSISTENCY = ['Pass', 'Flag'];\nconst promptPayload = $('Build Critique Prompt').first().json;\nconst originalIssueLog = promptPayload.originalIssueLog;\nconst runId = promptPayload.runId;\nconst response = $input.first()?.json || {};\nconst geminiRawText = response?.candidates?.[0]?.content?.parts?.[0]?.text;\n\nlet critiques = [];\nlet critiqueFailure = null;\ntry {\n  if (typeof geminiRawText !== 'string' || !geminiRawText.trim()) {\n    throw new Error('Critique agent returned no parseable text payload');\n  }\n  critiques = JSON.parse(geminiRawText);\n  if (!Array.isArray(critiques)) throw new Error('Critique response is not a JSON array');\n} catch (error) {\n  critiqueFailure = error.message;\n  critiques = [];\n}\n\nconst finalIssueLog = originalIssueLog.map((entry) => {\n  const matching = critiques.filter((critique) => critique?.issueId === entry.issueId);\n  const critique = matching[0];\n\n  if (!critique) {\n    return {\n      ...entry,\n      selfCritique: {\n        consistencyCheck: critiqueFailure ? 'AI_RESPONSE_UNPARSEABLE' : 'UNCHECKED',\n        reviewNote: critiqueFailure || 'Critique agent omitted this issue.'\n      },\n      routingDecision: 'Review Required'\n    };\n  }\n\n  const consistencyValid = ALLOWED_CONSISTENCY.includes(critique.consistencyCheck);\n  const reviewNoteValid = typeof critique.reviewNote === 'string'\n    && critique.reviewNote.trim().length > 0;\n  const unique = matching.length === 1;\n\n  if (!consistencyValid || !reviewNoteValid || !unique) {\n    return {\n      ...entry,\n      selfCritique: {\n        consistencyCheck: 'INVALID_RESPONSE',\n        reviewNote: 'Critique response failed schema or uniqueness validation.'\n      },\n      routingDecision: 'Review Required'\n    };\n  }\n\n  return {\n    ...entry,\n    selfCritique: {\n      consistencyCheck: critique.consistencyCheck,\n      reviewNote: critique.reviewNote.trim()\n    },\n    routingDecision: critique.consistencyCheck === 'Flag'\n      ? 'Review Required'\n      : entry.routingDecision\n  };\n});\n\nreturn [{\n  json: {\n    runId,\n    critiqueStatus: critiqueFailure ? 'FALLBACK_TO_HUMAN_REVIEW' : 'VALIDATED',\n    critiqueFailureReason: critiqueFailure,\n    totalIssueEntries: finalIssueLog.length,\n    criticalCount: finalIssueLog.filter((entry) => entry.routingDecision === 'Critical').length,\n    minorCount: finalIssueLog.filter((entry) => entry.routingDecision === 'Minor').length,\n    reviewRequiredCount: finalIssueLog.filter((entry) => entry.routingDecision === 'Review Required').length,\n    issueLog: finalIssueLog\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -896,
+        80
+      ],
+      "id": "1babcc89-a0fb-4012-81da-e739217d881c",
+      "name": "Merge Critique Results"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ============================================================\n// METHODOLOGY â€” Issue Log Generation (corrected from \"RAID Log\")\n// Input: flowDetails array from the DPMO calculation node.\n// Each flow with 1+ defects becomes an ISSUE entry â€” an\n// already-observed nonconformity, not a probabilistic future Risk.\n// Exposure Score: derived deterministically from defectCount ratio\n//   (an objective, code-calculated value â€” NOT an LLM guess, and\n//   NOT a formal PMP \"probability\" of a future event).\n//   0 defects   -> not logged (no issue)\n//   1 defect    -> exposureScore = \"Low\"    (value 1)\n//   2 defects   -> exposureScore = \"Medium\" (value 2)\n// Impact: NOT derived here. Impact requires business context,\n// which is the AI Agent's job downstream. This node outputs\n// exposureScore + raw context only; Impact and Priority Score\n// are assigned by the AI Agent / merge node downstream, not here.\n// A separate, genuinely forward-looking Risk entry (describing\n// the uncertain consequence this issue could cause) is NOT yet\n// generated â€” tracked as a near-term roadmap item, not built here.\n// ============================================================\n\nconst input = $input.first().json;\nconst flowDetails = input.flowDetails;\nif (!input.runId || !Array.isArray(flowDetails)) {\n  throw new Error('DPMO output schema invalid: runId and flowDetails are required.');\n}\n\nconst EXPOSURE_MAP = {\n  0: null,      // no issue, not logged\n  1: { label: 'Low', value: 1 },\n  2: { label: 'Medium', value: 2 },\n  3: { label: 'High', value: 3 } // reserved; not currently reachable, kept for schema stability\n};\n\nconst issueEntries = flowDetails\n  .filter(flow => flow.defectCount > 0)\n  .map((flow, index) => {\n    const exposure = EXPOSURE_MAP[flow.defectCount];\n    return {\n      issueId: `ISSUE-${String(index + 1).padStart(3, '0')}`,\n      category: 'Issue', // corrected from 'Risk' â€” this is an observed nonconformity\n      relatedFlow: flow.apiName,\n      relatedFlowLabel: flow.label,\n      processType: flow.processType,\n      defectsFound: flow.defects.map(d => d.check),\n      defectCount: flow.defectCount,\n      exposureScore: {\n        label: exposure.label,\n        value: exposure.value,\n        basis: `Calculated as defectCount (${flow.defectCount}) / opportunitiesPerUnit (3) mapped to a 3-tier scale. A defect-density proxy, not a formal probability of a future event.`\n      },\n      impact: {\n        label: null,\n        score: null,\n        rationale: null,\n        note: 'PENDING â€” assigned by AI Agent node based on business context (flow purpose, ProcessType, org role), not by this Code node.'\n      },\n      priorityScore: null, // informational ordinal index only = exposureScore.value x impact.score; NEVER the routing input\n      status: 'Open',\n      dateIdentified: new Date().toISOString().split('T')[0]\n    };\n  });\n\nreturn [{\n  json: {\n    runId: input.runId,\n    startedAt: input.startedAt,\n    workflowVersion: input.workflowVersion,\n    measurement: input.measurement,\n    methodology: {\n      scope: 'Only flows with 1+ defects generate Issue entries. Zero-defect flows represent no observed nonconformity and are excluded.',\n      exposureBasis: 'Calculated deterministically from defectCount ratio â€” see EXPOSURE_MAP. Not a formal PMP probability.',\n      impactBasis: 'Deliberately left unassigned here â€” requires qualitative business-context judgment, performed by the downstream AI Agent node.',\n      priorityScoreNote: 'priorityScore is an informational ordinal index for sorting/display only. Routing to Critical/Minor is keyed on the AI severity field, not on this score.',\n      note: 'A separate forward-looking Risk entry (per issue) is not yet generated â€” tracked on the roadmap.'\n    },\n    totalIssueEntries: issueEntries.length,\n    issueLog: issueEntries\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2032,
+        240
+      ],
+      "id": "64080d8c-46bc-49f0-8df5-39805b0c3c5f",
+      "name": "Generate Issue Log"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Governed merge: dynamic live issue log + schema checks + fail-safe fallback.\n// Execution mode: Run Once for All Items\nconst ALLOWED_IMPACT = ['Low', 'Medium', 'High'];\nconst ALLOWED_SEVERITY = ['Critical', 'Minor'];\nconst IMPACT_SCORE_MAP = { Low: 1, Medium: 2, High: 3 };\nconst promptPayload = $('Build Gemini Prompt').first().json;\nconst originalIssueLog = promptPayload.originalIssueLog;\nconst runId = promptPayload.runId;\n\nlet aiJudgments = [];\nlet responseFailure = null;\nconst response = $input.first()?.json || {};\nconst geminiRawText = response?.candidates?.[0]?.content?.parts?.[0]?.text;\n\ntry {\n  if (typeof geminiRawText !== 'string' || !geminiRawText.trim()) {\n    throw new Error('Gemini returned no parseable text payload');\n  }\n  aiJudgments = JSON.parse(geminiRawText);\n  if (!Array.isArray(aiJudgments)) throw new Error('Gemini response is not a JSON array');\n} catch (error) {\n  responseFailure = error.message;\n  aiJudgments = [];\n}\n\nconst idCounts = {};\nfor (const judgment of aiJudgments) {\n  if (judgment && typeof judgment.issueId === 'string') {\n    idCounts[judgment.issueId] = (idCounts[judgment.issueId] || 0) + 1;\n  }\n}\nconst duplicateIds = Object.keys(idCounts).filter((id) => idCounts[id] > 1);\nconst realIssueIds = new Set(originalIssueLog.map((entry) => entry.issueId));\nconst unexpectedJudgments = aiJudgments.filter((judgment) => !realIssueIds.has(judgment?.issueId));\n\nconst mergedIssueLog = originalIssueLog.map((entry) => {\n  const matching = aiJudgments.filter((judgment) => judgment?.issueId === entry.issueId);\n  const judgment = matching[0];\n\n  if (!judgment) {\n    return {\n      ...entry,\n      impact: {\n        label: 'UNASSIGNED',\n        score: null,\n        rationale: responseFailure || 'AI judgment missing for this issue.',\n        note: 'Human assessment required.'\n      },\n      severity: 'UNASSIGNED',\n      confidence: null,\n      priorityScore: null,\n      validationFlag: responseFailure ? 'AI_RESPONSE_UNPARSEABLE' : 'MISSING_JUDGMENT',\n      routingDecision: 'Review Required'\n    };\n  }\n\n  const validationIssues = [];\n  const impactValid = ALLOWED_IMPACT.includes(judgment.impact);\n  const severityValid = ALLOWED_SEVERITY.includes(judgment.severity);\n  const rationaleValid = typeof judgment.impactRationale === 'string'\n    && judgment.impactRationale.trim().length >= 10;\n  const confidenceValid = typeof judgment.confidence === 'number'\n    && Number.isFinite(judgment.confidence)\n    && judgment.confidence >= 0\n    && judgment.confidence <= 1;\n\n  if (!impactValid) validationIssues.push('impact invalid');\n  if (!severityValid) validationIssues.push('severity invalid');\n  if (!rationaleValid) validationIssues.push('impactRationale invalid');\n  if (!confidenceValid) validationIssues.push('confidence invalid');\n  if (matching.length > 1) validationIssues.push('duplicate judgment');\n\n  const impactScore = impactValid ? IMPACT_SCORE_MAP[judgment.impact] : null;\n  const priorityScore = impactScore === null ? null : entry.exposureScore.value * impactScore;\n\n  return {\n    ...entry,\n    impact: {\n      label: impactValid ? judgment.impact : 'INVALID',\n      score: impactScore,\n      rationale: rationaleValid ? judgment.impactRationale.trim() : 'Human assessment required.'\n    },\n    severity: severityValid ? judgment.severity : 'INVALID',\n    confidence: confidenceValid ? judgment.confidence : null,\n    priorityScore,\n    validationFlag: validationIssues.length ? validationIssues.join('; ') : 'OK',\n    routingDecision: validationIssues.length ? 'Review Required' : judgment.severity\n  };\n});\n\nreturn [{\n  json: {\n    runId,\n    aiJudgmentStatus: responseFailure ? 'FALLBACK_TO_HUMAN_REVIEW' : 'VALIDATED',\n    aiJudgmentFailureReason: responseFailure,\n    totalIssueEntries: mergedIssueLog.length,\n    criticalCount: mergedIssueLog.filter((entry) => entry.routingDecision === 'Critical').length,\n    minorCount: mergedIssueLog.filter((entry) => entry.routingDecision === 'Minor').length,\n    reviewRequiredCount: mergedIssueLog.filter((entry) => entry.routingDecision === 'Review Required').length,\n    duplicateIdsInResponse: duplicateIds,\n    unexpectedJudgmentCount: unexpectedJudgments.length,\n    issueLog: mergedIssueLog\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1424,
+        224
+      ],
+      "id": "2ce3ba7b-bbab-4420-8841-f61cca300b71",
+      "name": "Merge AI Judgment into Issue Log"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ============================================================\n// NODE: Split Issue Entries (renamed from Split RAID Entries)\n// Updated to read issueLog (corrected from raidLog)\n// Execution mode: Run Once for All Items\n// ============================================================\n\nconst issueLog = $input.first().json.issueLog;\nreturn issueLog.map(entry => ({ json: entry }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -528,
+        80
+      ],
+      "id": "98d1d892-ef05-4d18-9c2d-75571c9181b1",
+      "name": "Split Issue Entries"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Creates one immutable correlation identifier for the entire scan.\n// Execution mode: Run Once for All Items\nconst startedAt = new Date().toISOString();\nconst randomPart = Math.random().toString(36).slice(2, 10).toUpperCase();\nconst runId = `VGS-${startedAt.replace(/[-:.TZ]/g, '').slice(0, 14)}-${randomPart}`;\n\nreturn [{\n  json: {\n    runId,\n    startedAt,\n    workflowVersion: '1.2.0',\n    sourceSystem: 'Salesforce',\n    dataClassification: 'Metadata only â€” no Salesforce business records requested',\n    approvalStatus: 'Not Yet Reviewed'\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2832,
+        176
+      ],
+      "id": "6c50f9f2-25b3-4baa-945e-98d2104d3f73",
+      "name": "Initialize Run Context"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Runtime contract validation. Invalid autonomous decisions are downgraded\n// to Review Required; measured Six Sigma values are never changed.\nconst source = $input.first().json;\nconst allowedRoutes = ['Critical', 'Minor', 'Review Required'];\nconst allowedDefects = ['Missing Description', 'No Active Version', 'Stale Active Version'];\nconst contractErrors = [];\n\nif (typeof source.runId !== 'string' || !source.runId.startsWith('VGS-')) {\n  contractErrors.push('runId missing or invalid');\n}\nif (!Array.isArray(source.issueLog)) contractErrors.push('issueLog must be an array');\n\nconst issueLog = Array.isArray(source.issueLog) ? source.issueLog.map((entry) => {\n  const errors = [];\n  if (typeof entry.issueId !== 'string') errors.push('issueId');\n  if (entry.category !== 'Issue') errors.push('category');\n  if (!Array.isArray(entry.defectsFound) || !entry.defectsFound.every((d) => allowedDefects.includes(d))) {\n    errors.push('defectsFound');\n  }\n  if (!allowedRoutes.includes(entry.routingDecision)) errors.push('routingDecision');\n  if (!entry.selfCritique || typeof entry.selfCritique.reviewNote !== 'string') errors.push('selfCritique');\n\n  if (errors.length === 0) return entry;\n  return {\n    ...entry,\n    validationFlag: [entry.validationFlag, `FINAL_SCHEMA_INVALID: ${errors.join(', ')}`]\n      .filter(Boolean).join('; '),\n    routingDecision: 'Review Required'\n  };\n}) : [];\n\nreturn [{\n  json: {\n    ...source,\n    issueLog,\n    finalSchemaValidation: {\n      status: contractErrors.length ? 'FAILED_REVIEW_REQUIRED' : 'PASSED',\n      errors: contractErrors,\n      validator: 'Deterministic n8n Code node contract validator v1.2'\n    },\n    criticalCount: issueLog.filter((entry) => entry.routingDecision === 'Critical').length,\n    minorCount: issueLog.filter((entry) => entry.routingDecision === 'Minor').length,\n    reviewRequiredCount: issueLog.filter((entry) => entry.routingDecision === 'Review Required').length\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -720,
+        80
+      ],
+      "id": "89645f2b-e3da-479a-a648-97fb3b8bf49c",
+      "name": "Validate Final Output Schema"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Explicit human-in-the-loop queue. No remediation story is generated here.\nconst entry = $json;\nconst runId = $('Initialize Run Context').first().json.runId;\n\nreturn {\n  json: {\n    runId,\n    approvalTaskId: `HITL-${entry.issueId}`,\n    linkedIssueId: entry.issueId,\n    status: 'AWAITING HUMAN REVIEW',\n    decisionRequired: ['Confirm business impact', 'Confirm severity', 'Approve or reject remediation story creation'],\n    reason: entry.validationFlag !== 'OK'\n      ? entry.validationFlag\n      : entry.selfCritique?.reviewNote || 'Agentic assessment requires human adjudication.',\n    proposedAssessment: {\n      impact: entry.impact,\n      severity: entry.severity,\n      confidence: entry.confidence\n    },\n    sourceIssue: entry,\n    auditNote: 'This node intentionally prevents autonomous action until a named human reviewer records a decision.'\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -64,
+        256
+      ],
+      "id": "df62e7b4-da8a-42b1-ae07-5f18260daf14",
+      "name": "Human Review Queue"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -480,
+        464
+      ],
+      "id": "5cec5f9e-71d0-4df8-9e9f-38be9d5b7d1f",
+      "name": "Synchronize Findings and Control Chart"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ============================================================\n// BUILD EXECUTIVE HTML REPORT\n// Execution mode: Run Once for All Items\n//\n// All Six Sigma values come from deterministic calculation nodes.\n// AI cannot modify DPMO, Sigma level or control-chart limits.\n// ============================================================\n\nconst findings = $('Validate Final Output Schema').first().json;\nconst chart = $('Calculate Control Chart - I-MR').first().json.controlChart;\nconst measurement = $('Calculate DPMO - Flows').first().json.measurement;\nconst context = $('Initialize Run Context').first().json;\n\nconst escapeHtml = (value) =>\n  String(value ?? '')\n    .replace(/&/g, '&amp;')\n    .replace(/</g, '&lt;')\n    .replace(/>/g, '&gt;')\n    .replace(/\"/g, '&quot;')\n    .replace(/'/g, '&#039;');\n\nconst formatNumber = (value, decimals = 2) => {\n  const number = Number(value);\n\n  if (!Number.isFinite(number)) {\n    return 'Not available';\n  }\n\n  return number.toLocaleString('en-US', {\n    minimumFractionDigits: 0,\n    maximumFractionDigits: decimals\n  });\n};\n\nconst issueRows = findings.issueLog\n  .map((entry) => {\n    const routingClass =\n      entry.routingDecision === 'Critical'\n        ? 'critical'\n        : entry.routingDecision === 'Minor'\n          ? 'minor'\n          : 'review';\n\n    const confidence =\n      entry.confidence == null\n        ? 'Human review'\n        : `${Math.round(entry.confidence * 100)}%`;\n\n    const defects = Array.isArray(entry.defectsFound)\n      ? entry.defectsFound.map(escapeHtml).join('<br>')\n      : 'Not available';\n\n    return `\n      <tr>\n        <td>${escapeHtml(entry.issueId)}</td>\n\n        <td>\n          <strong>${escapeHtml(entry.relatedFlowLabel)}</strong>\n          <br>\n          <small>${escapeHtml(entry.relatedFlow)}</small>\n        </td>\n\n        <td>${defects}</td>\n\n        <td>\n          <strong>${escapeHtml(entry.impact?.label)}</strong>\n          <br>\n          <small>${escapeHtml(entry.impact?.rationale)}</small>\n        </td>\n\n        <td>${escapeHtml(entry.severity)}</td>\n\n        <td>\n          <span class=\"pill ${routingClass}\">\n            ${escapeHtml(entry.routingDecision)}\n          </span>\n        </td>\n\n        <td>${confidence}</td>\n      </tr>\n    `;\n  })\n  .join('');\n\nconst controlChartStatement =\n  chart.confidenceNote ||\n  chart.reason ||\n  'Control-chart explanation was not available.';\n\nconst individualsChart = chart.individualsChart || {};\nconst movingRangeChart = chart.movingRangeChart || {};\n\nconst generatedAt = new Date().toISOString();\n\nconst html = `<!doctype html>\n<html lang=\"en\">\n\n<head>\n  <meta charset=\"utf-8\">\n  <meta\n    name=\"viewport\"\n    content=\"width=device-width, initial-scale=1\"\n  >\n\n  <title>\n    Viridian Intelligence &mdash; Salesforce Governance Sentinel\n  </title>\n\n  <style>\n    :root {\n      --background: #061017;\n      --panel: #0b1d26;\n      --panel-light: #102934;\n      --teal: #00d4b8;\n      --green: #00a88f;\n      --muted: #9db0ba;\n      --line: #24404c;\n      --white: #f5fbfc;\n      --red: #ff6b6b;\n      --amber: #ffc857;\n      --blue: #56b8ff;\n    }\n\n    * {\n      box-sizing: border-box;\n    }\n\n    body {\n      margin: 0;\n      background: var(--background);\n      color: var(--white);\n      font-family:\n        Inter,\n        \"Segoe UI\",\n        Arial,\n        sans-serif;\n      font-size: 14px;\n      line-height: 1.5;\n    }\n\n    .page {\n      width: 100%;\n      max-width: 1220px;\n      margin: 0 auto;\n      padding: 44px;\n    }\n\n    .hero {\n      padding: 34px;\n      border: 1px solid var(--line);\n      border-radius: 18px;\n      background:\n        radial-gradient(\n          circle at 85% 20%,\n          rgba(0, 212, 184, 0.14),\n          transparent 32%\n        ),\n        linear-gradient(\n          135deg,\n          #0b2029,\n          #07131a\n        );\n    }\n\n    .brand {\n      color: var(--teal);\n      font-size: 13px;\n      font-weight: 700;\n      letter-spacing: 0.22em;\n    }\n\n    h1 {\n      margin: 8px 0 4px;\n      font-size: 38px;\n      line-height: 1.15;\n    }\n\n    h2 {\n      margin: 34px 0 14px;\n      font-size: 22px;\n    }\n\n    h3 {\n      margin: 0 0 8px;\n      font-size: 16px;\n    }\n\n    p {\n      margin: 8px 0;\n    }\n\n    .subtitle,\n    .muted {\n      color: var(--muted);\n    }\n\n    .run-details {\n      margin-top: 20px;\n      color: var(--muted);\n    }\n\n    .run-details strong {\n      color: var(--white);\n    }\n\n    .metric-grid {\n      display: grid;\n      grid-template-columns: repeat(4, minmax(0, 1fr));\n      gap: 14px;\n      margin: 24px 0;\n    }\n\n    .card {\n      padding: 18px;\n      overflow-wrap: anywhere;\n      border: 1px solid var(--line);\n      border-radius: 14px;\n      background: var(--panel);\n    }\n\n    .metric-label {\n      color: var(--muted);\n      font-size: 13px;\n    }\n\n    .metric {\n      margin-top: 5px;\n      color: var(--teal);\n      font-size: 28px;\n      font-weight: 700;\n      line-height: 1.2;\n    }\n\n    .metric-small {\n      font-size: 16px;\n    }\n\n    .notice {\n      margin: 28px 0;\n      padding: 15px 18px;\n      border-left: 4px solid var(--amber);\n      border-radius: 6px;\n      background: #211d12;\n    }\n\n    .notice strong {\n      color: var(--amber);\n    }\n\n    .governance-notice {\n      border-left-color: var(--teal);\n      background: #0c2423;\n    }\n\n    .governance-notice strong {\n      color: var(--teal);\n    }\n\n    .table-container {\n      overflow-x: auto;\n      border: 1px solid var(--line);\n      border-radius: 14px;\n    }\n\n    table {\n      width: 100%;\n      min-width: 1000px;\n      border-collapse: collapse;\n      background: var(--panel);\n    }\n\n    th,\n    td {\n      padding: 13px;\n      border-bottom: 1px solid var(--line);\n      text-align: left;\n      vertical-align: top;\n    }\n\n    th {\n      color: var(--teal);\n      background: var(--panel-light);\n      font-size: 12px;\n      letter-spacing: 0.04em;\n      text-transform: uppercase;\n    }\n\n    tbody tr:last-child td {\n      border-bottom: 0;\n    }\n\n    tbody tr:hover {\n      background: rgba(0, 212, 184, 0.04);\n    }\n\n    small {\n      color: var(--muted);\n    }\n\n    .pill {\n      display: inline-block;\n      padding: 4px 9px;\n      border-radius: 999px;\n      font-size: 12px;\n      font-weight: 700;\n      white-space: nowrap;\n    }\n\n    .critical {\n      color: #ff9ca5;\n      background: #4b1f27;\n    }\n\n    .minor {\n      color: #78ead6;\n      background: #123c35;\n    }\n\n    .review {\n      color: #ffe096;\n      background: #493d1b;\n    }\n\n    .control-grid {\n      display: grid;\n      grid-template-columns: 1.5fr 1fr 1fr;\n      gap: 14px;\n    }\n\n    .status {\n      color: var(--teal);\n      font-weight: 700;\n    }\n\n    .formula {\n      margin-top: 8px;\n      color: var(--muted);\n      font-family:\n        \"SFMono-Regular\",\n        Consolas,\n        monospace;\n      font-size: 12px;\n    }\n\n    .footer {\n      margin-top: 32px;\n      padding-top: 18px;\n      border-top: 1px solid var(--line);\n      color: var(--muted);\n      font-size: 12px;\n    }\n\n    .footer strong {\n      color: var(--white);\n    }\n\n    @media (max-width: 900px) {\n      .page {\n        padding: 22px;\n      }\n\n      .metric-grid {\n        grid-template-columns: repeat(2, minmax(0, 1fr));\n      }\n\n      .control-grid {\n        grid-template-columns: 1fr;\n      }\n\n      h1 {\n        font-size: 30px;\n      }\n    }\n\n    @media (max-width: 520px) {\n      .metric-grid {\n        grid-template-columns: 1fr;\n      }\n    }\n\n    @media print {\n      body {\n        color: #111;\n        background: #fff;\n      }\n\n      .page {\n        max-width: none;\n        padding: 20px;\n      }\n\n      .hero,\n      .card,\n      table,\n      th {\n        color: #111;\n        background: #fff;\n      }\n\n      .subtitle,\n      .muted,\n      small,\n      .footer,\n      .formula {\n        color: #555;\n      }\n\n      .table-container,\n      .hero,\n      .card {\n        border-color: #bbb;\n      }\n\n      .metric,\n      .brand,\n      th,\n      .status {\n        color: #00796b;\n      }\n\n      tbody tr:hover {\n        background: transparent;\n      }\n    }\n  </style>\n</head>\n\n<body>\n  <main class=\"page\">\n\n    <section class=\"hero\">\n      <div class=\"brand\">VIRIDIAN INTELLIGENCE</div>\n\n      <h1>Salesforce Governance Sentinel</h1>\n\n      <div class=\"subtitle\">\n        Governed agentic analysis\n        &bull;\n        deterministic Six Sigma measurement\n        &bull;\n        human-controlled remediation\n      </div>\n\n      <div class=\"run-details\">\n        Run ID:\n        <strong>${escapeHtml(context.runId)}</strong>\n\n        &nbsp; | &nbsp;\n\n        Started:\n        ${escapeHtml(context.startedAt)}\n      </div>\n    </section>\n\n    <section class=\"metric-grid\">\n      <div class=\"card\">\n        <div class=\"metric-label\">In-scope flows</div>\n        <div class=\"metric\">\n          ${formatNumber(measurement.inScopeUnits, 0)}\n        </div>\n      </div>\n\n      <div class=\"card\">\n        <div class=\"metric-label\">Governance defects</div>\n        <div class=\"metric\">\n          ${formatNumber(measurement.totalDefects, 0)}\n        </div>\n      </div>\n\n      <div class=\"card\">\n        <div class=\"metric-label\">Total opportunities</div>\n        <div class=\"metric\">\n          ${formatNumber(measurement.totalOpportunities, 0)}\n        </div>\n      </div>\n\n      <div class=\"card\">\n        <div class=\"metric-label\">DPMO</div>\n        <div class=\"metric\">\n          ${formatNumber(measurement.dpmo, 2)}\n        </div>\n      </div>\n    </section>\n\n    <section class=\"metric-grid\">\n      <div class=\"card\">\n        <div class=\"metric-label\">Sigma level</div>\n        <div class=\"metric\">\n          ${formatNumber(measurement.sigmaLevel, 3)}\n        </div>\n      </div>\n\n      <div class=\"card\">\n        <div class=\"metric-label\">Critical</div>\n        <div class=\"metric\">\n          ${formatNumber(findings.criticalCount, 0)}\n        </div>\n      </div>\n\n      <div class=\"card\">\n        <div class=\"metric-label\">Minor</div>\n        <div class=\"metric\">\n          ${formatNumber(findings.minorCount, 0)}\n        </div>\n      </div>\n\n      <div class=\"card\">\n        <div class=\"metric-label\">Human review</div>\n        <div class=\"metric\">\n          ${formatNumber(findings.reviewRequiredCount, 0)}\n        </div>\n      </div>\n    </section>\n\n    <div class=\"notice\">\n      <strong>Six Sigma measurement statement:</strong>\n\n      DPMO and Sigma are governance defect-density indicators\n      based on three declared defect opportunities per custom\n      Salesforce Flow.\n\n      These measurements are not Cpk.\n\n      Cpk is intentionally excluded because valid customer\n      specification limits have not been established.\n    </div>\n\n    <div class=\"notice governance-notice\">\n      <strong>Agentic governance statement:</strong>\n\n      AI assigns contextual impact, severity, rationale and confidence.\n\n      AI does not calculate or modify the measured defects,\n      DPMO, Sigma level or control-chart limits.\n\n      Invalid, uncertain or inconsistent AI responses are routed\n      to human review.\n    </div>\n\n    <h2>Governance issue register</h2>\n\n    <div class=\"table-container\">\n      <table>\n        <thead>\n          <tr>\n            <th>Issue ID</th>\n            <th>Salesforce Flow</th>\n            <th>Observed defects</th>\n            <th>AI impact assessment</th>\n            <th>Severity</th>\n            <th>Routing decision</th>\n            <th>AI confidence</th>\n          </tr>\n        </thead>\n\n        <tbody>\n          ${\n            issueRows ||\n            `\n              <tr>\n                <td colspan=\"7\">\n                  No governance defects were detected in this scan.\n                </td>\n              </tr>\n            `\n          }\n        </tbody>\n      </table>\n    </div>\n\n    <h2>Statistical process control</h2>\n\n    <section class=\"control-grid\">\n      <div class=\"card\">\n        <h3>Control-chart status</h3>\n\n        <div class=\"status\">\n          ${escapeHtml(chart.status)}\n        </div>\n\n        <p class=\"muted\">\n          ${escapeHtml(controlChartStatement)}\n        </p>\n      </div>\n\n      <div class=\"card\">\n        <h3>Individuals chart</h3>\n\n        <p>\n          Center line:\n          <strong>\n            ${formatNumber(individualsChart.centerline)}\n          </strong>\n        </p>\n\n        <p>\n          Upper control limit:\n          <strong>\n            ${formatNumber(individualsChart.ucl)}\n          </strong>\n        </p>\n\n        <p>\n          Lower control limit:\n          <strong>\n            ${formatNumber(individualsChart.lcl)}\n          </strong>\n        </p>\n\n        <div class=\"formula\">\n          ${escapeHtml(individualsChart.formula)}\n        </div>\n      </div>\n\n      <div class=\"card\">\n        <h3>Moving-range chart</h3>\n\n        <p>\n          Center line:\n          <strong>\n            ${formatNumber(movingRangeChart.centerline)}\n          </strong>\n        </p>\n\n        <p>\n          Upper control limit:\n          <strong>\n            ${formatNumber(movingRangeChart.ucl)}\n          </strong>\n        </p>\n\n        <p>\n          Lower control limit:\n          <strong>\n            ${formatNumber(movingRangeChart.lcl)}\n          </strong>\n        </p>\n\n        <div class=\"formula\">\n          ${escapeHtml(movingRangeChart.formula)}\n        </div>\n      </div>\n    </section>\n\n    <div class=\"footer\">\n      <p>\n        <strong>Data scope:</strong>\n        Salesforce Flow metadata only.\n        This workflow does not request Salesforce business-record data.\n      </p>\n\n      <p>\n        <strong>Decision control:</strong>\n        AI assessments are advisory.\n        Critical actions and all uncertain or invalid outputs require\n        human approval.\n      </p>\n\n      <p>\n        <strong>Traceability:</strong>\n        Run ${escapeHtml(context.runId)}\n        generated at ${escapeHtml(generatedAt)}.\n      </p>\n    </div>\n\n  </main>\n</body>\n\n</html>`;\n\nreturn [\n  {\n    json: {\n      runId: context.runId,\n      reportStatus: 'HTML_READY',\n      suggestedFileName:\n        `salesforce-governance-sentinel-${context.runId}.html`,\n      mimeType: 'text/html',\n      html,\n      reportSummary: {\n        measurement,\n        routing: {\n          critical: findings.criticalCount,\n          minor: findings.minorCount,\n          reviewRequired: findings.reviewRequiredCount\n        },\n        controlChartStatus: chart.status,\n        schemaValidation: findings.finalSchemaValidation\n      }\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -240,
+        464
+      ],
+      "id": "e9a018ee-6f8c-48c0-9642-4a27841efc22",
+      "name": "Build Executive HTML Report"
+    },
+    {
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "html",
+        "options": {
+          "encoding": "utf8",
+          "fileName": "={{ $json.suggestedFileName }}"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        464
+      ],
+      "id": "95f07dad-4133-44a8-8296-dffd3e69e442",
+      "name": "Create Downloadable HTML File"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking â€˜Execute workflowâ€™": {
+      "main": [
+        [
+          {
+            "node": "Initialize Run Context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Initialize Run Context": {
+      "main": [
+        [
+          {
+            "node": "Get Flows - REST API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Flows - REST API": {
+      "main": [
+        [
+          {
+            "node": "Calculate DPMO - Flows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculate DPMO - Flows": {
+      "main": [
+        [
+          {
+            "node": "Generate Issue Log",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Insert row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Issue Log": {
+      "main": [
+        [
+          {
+            "node": "Build Gemini Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Gemini Prompt": {
+      "main": [
+        [
+          {
+            "node": "AI Severity Judgment - Gemini",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Severity Judgment - Gemini": {
+      "main": [
+        [
+          {
+            "node": "Merge AI Judgment into Issue Log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge AI Judgment into Issue Log": {
+      "main": [
+        [
+          {
+            "node": "Build Critique Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Critique Prompt": {
+      "main": [
+        [
+          {
+            "node": "AI Critique - Gemini",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Critique - Gemini": {
+      "main": [
+        [
+          {
+            "node": "Merge Critique Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Critique Results": {
+      "main": [
+        [
+          {
+            "node": "Validate Final Output Schema",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Final Output Schema": {
+      "main": [
+        [
+          {
+            "node": "Split Issue Entries",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Synchronize Findings and Control Chart",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Issue Entries": {
+      "main": [
+        [
+          {
+            "node": "Route by Severity",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route by Severity": {
+      "main": [
+        [
+          {
+            "node": "Generate Story - Critical",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Generate Story - Minor",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Human Review Queue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert row": {
+      "main": [
+        [
+          {
+            "node": "Get Scan History",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Scan History": {
+      "main": [
+        [
+          {
+            "node": "Calculate Control Chart - I-MR",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculate Control Chart - I-MR": {
+      "main": [
+        [
+          {
+            "node": "Synchronize Findings and Control Chart",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Synchronize Findings and Control Chart": {
+      "main": [
+        [
+          {
+            "node": "Build Executive HTML Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Executive HTML Report": {
+      "main": [
+        [
+          {
+            "node": "Create Downloadable HTML File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Synthetic Test Fixture - Flows": {
+      "main": [
+        [
+          {
+            "node": "Calculate DPMO - Synthetic (Test)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "nodeGroups": []
+}

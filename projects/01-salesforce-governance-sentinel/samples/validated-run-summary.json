@@ -1,0 +1,103 @@
+{
+  "runId": "VGS-20260730082713-4RYZ4BR5",
+  "critiqueStatus": "VALIDATED",
+  "critiqueFailureReason": null,
+  "totalIssueEntries": 7,
+  "criticalCount": 0,
+  "minorCount": 7,
+  "reviewRequiredCount": 0,
+  "measurement": {
+    "inScopeFlows": 7,
+    "opportunitiesPerFlow": 3,
+    "totalOpportunities": 21,
+    "totalDefects": 7,
+    "dpmo": 333333.33,
+    "sigmaLevel": 1.931,
+    "cpk": null,
+    "cpkStatus": "EXCLUDED_NO_VALID_SPECIFICATION_LIMITS"
+  },
+  "findings": [
+    {
+      "issueId": "ISSUE-001",
+      "flow": "Create_Task_for_High_Value_Practice_Deals",
+      "defects": ["Missing Description"],
+      "exposureScore": 1,
+      "impactScore": 3,
+      "priorityScore": 3,
+      "severity": "Minor",
+      "confidence": 0.9,
+      "routingDecision": "Minor"
+    },
+    {
+      "issueId": "ISSUE-002",
+      "flow": "Create_Task_for_Strategic_High_Value_Deal",
+      "defects": ["Missing Description"],
+      "exposureScore": 1,
+      "impactScore": 3,
+      "priorityScore": 3,
+      "severity": "Minor",
+      "confidence": 0.9,
+      "routingDecision": "Minor"
+    },
+    {
+      "issueId": "ISSUE-003",
+      "flow": "Set_Forecast_Category_Omitted_When_Lost",
+      "defects": ["Missing Description"],
+      "exposureScore": 1,
+      "impactScore": 3,
+      "priorityScore": 3,
+      "severity": "Minor",
+      "confidence": 0.9,
+      "routingDecision": "Minor"
+    },
+    {
+      "issueId": "ISSUE-004",
+      "flow": "Set_Probability_for_Negotiation_Deals",
+      "defects": ["Missing Description"],
+      "exposureScore": 1,
+      "impactScore": 3,
+      "priorityScore": 3,
+      "severity": "Minor",
+      "confidence": 0.9,
+      "routingDecision": "Minor"
+    },
+    {
+      "issueId": "ISSUE-005",
+      "flow": "Test_1",
+      "defects": ["Missing Description"],
+      "exposureScore": 1,
+      "impactScore": 1,
+      "priorityScore": 1,
+      "severity": "Minor",
+      "confidence": 0.7,
+      "routingDecision": "Minor"
+    },
+    {
+      "issueId": "ISSUE-006",
+      "flow": "customer_satisfaction",
+      "defects": ["Missing Description"],
+      "exposureScore": 1,
+      "impactScore": 2,
+      "priorityScore": 2,
+      "severity": "Minor",
+      "confidence": 0.9,
+      "routingDecision": "Minor"
+    },
+    {
+      "issueId": "ISSUE-007",
+      "flow": "net_promoter_score",
+      "defects": ["Missing Description"],
+      "exposureScore": 1,
+      "impactScore": 2,
+      "priorityScore": 2,
+      "severity": "Minor",
+      "confidence": 0.9,
+      "routingDecision": "Minor"
+    }
+  ],
+  "finalSchemaValidation": {
+    "status": "PASSED",
+    "errors": [],
+    "validator": "Deterministic n8n Code node contract validator v1.2"
+  }
+}

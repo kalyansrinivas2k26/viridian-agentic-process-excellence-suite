@@ -1,0 +1,762 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
+  <title>
+    Viridian Intelligence &mdash; Salesforce Governance Sentinel
+  </title>
+
+  <style>
+    :root {
+      --background: #061017;
+      --panel: #0b1d26;
+      --panel-light: #102934;
+      --teal: #00d4b8;
+      --green: #00a88f;
+      --muted: #9db0ba;
+      --line: #24404c;
+      --white: #f5fbfc;
+      --red: #ff6b6b;
+      --amber: #ffc857;
+      --blue: #56b8ff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--background);
+      color: var(--white);
+      font-family:
+        Inter,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 44px;
+    }
+
+    .hero {
+      padding: 34px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background:
+        radial-gradient(
+          circle at 85% 20%,
+          rgba(0, 212, 184, 0.14),
+          transparent 32%
+        ),
+        linear-gradient(
+          135deg,
+          #0b2029,
+          #07131a
+        );
+    }
+
+    .brand {
+      color: var(--teal);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+    }
+
+    h1 {
+      margin: 8px 0 4px;
+      font-size: 38px;
+      line-height: 1.15;
+    }
+
+    h2 {
+      margin: 34px 0 14px;
+      font-size: 22px;
+    }
+
+    h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+    }
+
+    p {
+      margin: 8px 0;
+    }
+
+    .subtitle,
+    .muted {
+      color: var(--muted);
+    }
+
+    .run-details {
+      margin-top: 20px;
+      color: var(--muted);
+    }
+
+    .run-details strong {
+      color: var(--white);
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin: 24px 0;
+    }
+
+    .card {
+      padding: 18px;
+      overflow-wrap: anywhere;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--panel);
+    }
+
+    .metric-label {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .metric {
+      margin-top: 5px;
+      color: var(--teal);
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .metric-small {
+      font-size: 16px;
+    }
+
+    .notice {
+      margin: 28px 0;
+      padding: 15px 18px;
+      border-left: 4px solid var(--amber);
+      border-radius: 6px;
+      background: #211d12;
+    }
+
+    .notice strong {
+      color: var(--amber);
+    }
+
+    .governance-notice {
+      border-left-color: var(--teal);
+      background: #0c2423;
+    }
+
+    .governance-notice strong {
+      color: var(--teal);
+    }
+
+    .table-container {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+    }
+
+    table {
+      width: 100%;
+      min-width: 1000px;
+      border-collapse: collapse;
+      background: var(--panel);
+    }
+
+    th,
+    td {
+      padding: 13px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--teal);
+      background: var(--panel-light);
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    tbody tr:hover {
+      background: rgba(0, 212, 184, 0.04);
+    }
+
+    small {
+      color: var(--muted);
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .critical {
+      color: #ff9ca5;
+      background: #4b1f27;
+    }
+
+    .minor {
+      color: #78ead6;
+      background: #123c35;
+    }
+
+    .review {
+      color: #ffe096;
+      background: #493d1b;
+    }
+
+    .control-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 14px;
+    }
+
+    .status {
+      color: var(--teal);
+      font-weight: 700;
+    }
+
+    .formula {
+      margin-top: 8px;
+      color: var(--muted);
+      font-family:
+        "SFMono-Regular",
+        Consolas,
+        monospace;
+      font-size: 12px;
+    }
+
+    .footer {
+      margin-top: 32px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .footer strong {
+      color: var(--white);
+    }
+
+    @media (max-width: 900px) {
+      .page {
+        padding: 22px;
+      }
+
+      .metric-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .control-grid {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 30px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .metric-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      body {
+        color: #111;
+        background: #fff;
+      }
+
+      .page {
+        max-width: none;
+        padding: 20px;
+      }
+
+      .hero,
+      .card,
+      table,
+      th {
+        color: #111;
+        background: #fff;
+      }
+
+      .subtitle,
+      .muted,
+      small,
+      .footer,
+      .formula {
+        color: #555;
+      }
+
+      .table-container,
+      .hero,
+      .card {
+        border-color: #bbb;
+      }
+
+      .metric,
+      .brand,
+      th,
+      .status {
+        color: #00796b;
+      }
+
+      tbody tr:hover {
+        background: transparent;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+
+    <section class="hero">
+      <div class="brand">VIRIDIAN INTELLIGENCE</div>
+
+      <h1>Salesforce Governance Sentinel</h1>
+
+      <div class="subtitle">
+        Governed agentic analysis
+        &bull;
+        deterministic Six Sigma measurement
+        &bull;
+        human-controlled remediation
+      </div>
+
+      <div class="run-details">
+        Run ID:
+        <strong>VGS-20260730082713-4RYZ4BR5</strong>
+
+        &nbsp; | &nbsp;
+
+        Started:
+        2026-07-30T08:27:13.700Z
+      </div>
+    </section>
+
+    <section class="metric-grid">
+      <div class="card">
+        <div class="metric-label">In-scope flows</div>
+        <div class="metric">
+          7
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="metric-label">Governance defects</div>
+        <div class="metric">
+          7
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="metric-label">Total opportunities</div>
+        <div class="metric">
+          21
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="metric-label">DPMO</div>
+        <div class="metric">
+          333,333.33
+        </div>
+      </div>
+    </section>
+
+    <section class="metric-grid">
+      <div class="card">
+        <div class="metric-label">Sigma level</div>
+        <div class="metric">
+          1.931
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="metric-label">Critical</div>
+        <div class="metric">
+          0
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="metric-label">Minor</div>
+        <div class="metric">
+          7
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="metric-label">Human review</div>
+        <div class="metric">
+          0
+        </div>
+      </div>
+    </section>
+
+    <div class="notice">
+      <strong>Six Sigma measurement statement:</strong>
+
+      DPMO and Sigma are governance defect-density indicators
+      based on three declared defect opportunities per custom
+      Salesforce Flow.
+
+      These measurements are not Cpk.
+
+      Cpk is intentionally excluded because valid customer
+      specification limits have not been established.
+    </div>
+
+    <div class="notice governance-notice">
+      <strong>Agentic governance statement:</strong>
+
+      AI assigns contextual impact, severity, rationale and confidence.
+
+      AI does not calculate or modify the measured defects,
+      DPMO, Sigma level or control-chart limits.
+
+      Invalid, uncertain or inconsistent AI responses are routed
+      to human review.
+    </div>
+
+    <h2>Governance issue register</h2>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Issue ID</th>
+            <th>Salesforce Flow</th>
+            <th>Observed defects</th>
+            <th>AI impact assessment</th>
+            <th>Severity</th>
+            <th>Routing decision</th>
+            <th>AI confidence</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          
+      <tr>
+        <td>ISSUE-001</td>
+
+        <td>
+          <strong>Create Task for High Value Practice Deals</strong>
+          <br>
+          <small>Create_Task_for_High_Value_Practice_Deals</small>
+        </td>
+
+        <td>Missing Description</td>
+
+        <td>
+          <strong>High</strong>
+          <br>
+          <small>This flow is related to &#039;High Value Practice Deals&#039;, suggesting it impacts significant business opportunities. A missing description could lead to misinterpretation or errors during maintenance, potentially disrupting critical sales or client management processes.</small>
+        </td>
+
+        <td>Minor</td>
+
+        <td>
+          <span class="pill minor">
+            Minor
+          </span>
+        </td>
+
+        <td>90%</td>
+      </tr>
+    
+      <tr>
+        <td>ISSUE-002</td>
+
+        <td>
+          <strong>Create Task for Strategic High Value Deal</strong>
+          <br>
+          <small>Create_Task_for_Strategic_High_Value_Deal</small>
+        </td>
+
+        <td>Missing Description</td>
+
+        <td>
+          <strong>High</strong>
+          <br>
+          <small>The flow&#039;s label &#039;Strategic High Value Deal&#039; indicates a critical business process, likely impacting revenue or key client relationships. A missing description increases the risk of errors or delays if the flow requires troubleshooting or modification, potentially affecting strategic initiatives.</small>
+        </td>
+
+        <td>Minor</td>
+
+        <td>
+          <span class="pill minor">
+            Minor
+          </span>
+        </td>
+
+        <td>90%</td>
+      </tr>
+    
+      <tr>
+        <td>ISSUE-003</td>
+
+        <td>
+          <strong>Set Forecast Category Omitted When Lost</strong>
+          <br>
+          <small>Set_Forecast_Category_Omitted_When_Lost</small>
+        </td>
+
+        <td>Missing Description</td>
+
+        <td>
+          <strong>High</strong>
+          <br>
+          <small>This flow manages &#039;Forecast Category&#039; for &#039;Lost&#039; deals, directly affecting sales reporting, pipeline accuracy, and business planning. A missing description could lead to inaccurate forecasts or poor business decisions if the flow is misunderstood or malfunctions.</small>
+        </td>
+
+        <td>Minor</td>
+
+        <td>
+          <span class="pill minor">
+            Minor
+          </span>
+        </td>
+
+        <td>90%</td>
+      </tr>
+    
+      <tr>
+        <td>ISSUE-004</td>
+
+        <td>
+          <strong>Set Probability for Negotiation Deals</strong>
+          <br>
+          <small>Set_Probability_for_Negotiation_Deals</small>
+        </td>
+
+        <td>Missing Description</td>
+
+        <td>
+          <strong>High</strong>
+          <br>
+          <small>The flow sets &#039;Probability for Negotiation Deals&#039;, a key metric for sales forecasting and revenue predictions. A missing description could result in skewed revenue projections and misallocation of resources if the flow is not properly understood or maintained.</small>
+        </td>
+
+        <td>Minor</td>
+
+        <td>
+          <span class="pill minor">
+            Minor
+          </span>
+        </td>
+
+        <td>90%</td>
+      </tr>
+    
+      <tr>
+        <td>ISSUE-005</td>
+
+        <td>
+          <strong>Test 1</strong>
+          <br>
+          <small>Test_1</small>
+        </td>
+
+        <td>Missing Description</td>
+
+        <td>
+          <strong>Low</strong>
+          <br>
+          <small>The label &#039;Test 1&#039; strongly suggests this is a test or non-production flow. The business harm from a missing description on a non-critical test flow is likely minimal.</small>
+        </td>
+
+        <td>Minor</td>
+
+        <td>
+          <span class="pill minor">
+            Minor
+          </span>
+        </td>
+
+        <td>70%</td>
+      </tr>
+    
+      <tr>
+        <td>ISSUE-006</td>
+
+        <td>
+          <strong>Customer Satisfaction</strong>
+          <br>
+          <small>customer_satisfaction</small>
+        </td>
+
+        <td>Missing Description</td>
+
+        <td>
+          <strong>Medium</strong>
+          <br>
+          <small>As a &#039;Customer Satisfaction&#039; survey, this flow is customer-facing and gathers important feedback. A missing description could disrupt data collection or lead to incorrect interpretation of results, indirectly impacting customer retention and business strategy.</small>
+        </td>
+
+        <td>Minor</td>
+
+        <td>
+          <span class="pill minor">
+            Minor
+          </span>
+        </td>
+
+        <td>90%</td>
+      </tr>
+    
+      <tr>
+        <td>ISSUE-007</td>
+
+        <td>
+          <strong>Net Promoter Score</strong>
+          <br>
+          <small>net_promoter_score</small>
+        </td>
+
+        <td>Missing Description</td>
+
+        <td>
+          <strong>Medium</strong>
+          <br>
+          <small>The &#039;Net Promoter Score&#039; is a critical metric for customer loyalty and growth. A missing description on this survey flow could hinder the collection of vital customer data, impacting strategic decisions and long-term revenue.</small>
+        </td>
+
+        <td>Minor</td>
+
+        <td>
+          <span class="pill minor">
+            Minor
+          </span>
+        </td>
+
+        <td>90%</td>
+      </tr>
+    
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Statistical process control</h2>
+
+    <section class="control-grid">
+      <div class="card">
+        <h3>Control-chart status</h3>
+
+        <div class="status">
+          CALCULATED_LOW_CONFIDENCE
+        </div>
+
+        <p class="muted">
+          Only 8 data point(s) exist. Limits are mathematically valid (I-MR formulas require no minimum beyond n=2) but statistically low-confidence -- 12 more scan(s) needed to reach the ~20-observation convention ASQ describes for trusting initial control limits.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Individuals chart</h3>
+
+        <p>
+          Center line:
+          <strong>
+            333,333.33
+          </strong>
+        </p>
+
+        <p>
+          Upper control limit:
+          <strong>
+            333,333.33
+          </strong>
+        </p>
+
+        <p>
+          Lower control limit:
+          <strong>
+            333,333.33
+          </strong>
+        </p>
+
+        <div class="formula">
+          UCL/LCL = mean +/- 3 * (MRbar / 1.128), d2=1.128 for n=2 subgroups
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Moving-range chart</h3>
+
+        <p>
+          Center line:
+          <strong>
+            0
+          </strong>
+        </p>
+
+        <p>
+          Upper control limit:
+          <strong>
+            0
+          </strong>
+        </p>
+
+        <p>
+          Lower control limit:
+          <strong>
+            0
+          </strong>
+        </p>
+
+        <div class="formula">
+          UCL = 3.267 * MRbar (D4=3.267 for n=2), LCL = 0 (D3=0 for n=2)
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">
+      <p>
+        <strong>Data scope:</strong>
+        Salesforce Flow metadata only.
+        This workflow does not request Salesforce business-record data.
+      </p>
+
+      <p>
+        <strong>Decision control:</strong>
+        AI assessments are advisory.
+        Critical actions and all uncertain or invalid outputs require
+        human approval.
+      </p>
+
+      <p>
+        <strong>Traceability:</strong>
+        Run VGS-20260730082713-4RYZ4BR5
+        generated at 2026-07-30T08:27:38.376Z.
+      </p>
+    </div>
+
+  </main>
+</body>
+
+</html>
