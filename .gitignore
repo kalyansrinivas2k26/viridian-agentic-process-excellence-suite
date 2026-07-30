@@ -1,0 +1,46 @@
+# Credentials and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*credentials*
+*secret*
+*token*
+
+# Private n8n exports and runtime data
+.n8n/
+n8n-data/
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+workflows/private/
+workflows/local/
+
+# Salesforce authentication files
+.sfdx/
+.sf/
+force-app/.sfdx/
+authfiles/
+
+# Local and operating-system files
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.swp
+.vscode/
+.idea/
+
+# Dependencies and generated output
+node_modules/
+dist/
+build/
+coverage/
+
+# Archives
+*.zip
+*.tar
+*.tar.gz
