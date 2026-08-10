@@ -1,0 +1,32 @@
+name: Validate Flow Integrity Portfolio Preview
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Evidence, link, documentation and integrity gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate repository controls
+        run: python scripts/validate_portfolio.py
+
+      - name: Validate SHA-256 ledger
+        run: python scripts/checksums.py --check
