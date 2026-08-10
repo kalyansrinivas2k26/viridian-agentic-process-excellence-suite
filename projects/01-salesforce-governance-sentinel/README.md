@@ -1,143 +1,147 @@
-# Salesforce Governance Sentinel
+# Flow Integrity — Salesforce Governance Sentinel
 
-**Viridian Intelligence — Agentic Process Excellence Suite**
+> **Portfolio Preview — validated v1.3 evidence package.** Synthetic/sanitized portfolio evidence; no production-scale, external-certification or real-customer-outcome claim is made.
 
-Salesforce Governance Sentinel is a governed n8n agent that inspects customer-owned Salesforce Flow metadata, measures governance defects using deterministic Six Sigma calculations, asks AI to assess business impact, validates the AI response, and routes findings into human-controlled remediation paths.
+**Business outcome:** Prevent Salesforce automation-governance defects from becoming unaudited operational risk by converting Flow metadata into deterministic measurements, bounded AI judgment and human-controlled remediation evidence.
 
-It addresses a practical Salesforce administration problem: undocumented, inactive, or poorly governed automation accumulates faster than administrators can review it manually. Ordinary scanners list metadata. This project converts observations into measurable governance findings, an auditable decision trail, draft Agile remediation stories, statistical history, and an executive report.
+**New here? Start with [Who's Looking At This — Start Here By Role](docs/AUDIENCE_GUIDE.md)** — nine roles, each with the exact file to open first and what to verify. Recruiter, hiring manager, Salesforce architect, n8n engineer, AI-governance reviewer, Six Sigma reviewer, PMP reviewer, security reviewer, and CEO/business stakeholder are all covered.
 
-## Validated release
+## Three validated results
 
-Release `v1.3` was executed successfully on 30 July 2026.
+| Control | Repository evidence |
+|---|---|
+| Deterministic measurement | 7 declared governance defects / 21 declared opportunities; DPMO 333,333.33; Sigma 1.931 |
+| AI contract | AI critique `VALIDATED`; schema validation `PASSED` |
+| Governed routing | 7 Minor, 0 Critical, 0 Human Review in the validated v1.3 run |
 
-| Control | Validated result |
-| --- | --- |
-| Salesforce authentication | OAuth 2.0 Client Credentials |
-| Runtime identity | Dedicated API-only integration user |
-| Authorization | Least-privilege permission set |
-| Metadata scope | Customer-owned Flows only |
-| In-scope Flows | 7 |
-| Governance defects | 7 missing descriptions |
-| Defect opportunities | 21 |
-| DPMO | 333,333.33 |
-| Sigma level | 1.931 |
-| AI critique | VALIDATED |
-| Schema validation | PASSED |
-| Routing | 7 Minor, 0 Critical, 0 Human Review |
-| Report | Generated successfully |
+**Real portfolio defect found and corrected:** the public root repository previously presented obsolete future-project names and had no automated repository validation gate. This remediation package replaces the stale portfolio front door and adds deterministic CI checks. This is a repository/release-assurance correction, not a claim that the v1.3 workflow engine failed.
 
-## What makes it agentic
+**Known limitation:** the validated evidence is not production-scale and the v1.3 executive report does not display intermediate exposure and priority scores.
 
-The AI does more than summarize. It assesses contextual business impact and confidence, while deterministic controls retain authority over measured facts and routing contracts.
+**Demo:** owner-recorded 60–90 second video is still pending. Until a real recording is linked here, this requirement remains visibly open rather than being simulated.
 
-1. Salesforce metadata is collected through a restricted API identity.
-2. Code calculates defects, opportunities, DPMO, and Sigma.
-3. Gemini assesses contextual impact, severity rationale, and confidence.
-4. A second AI pass critiques the first assessment.
-5. Deterministic code validates structure, IDs, ranges, and completeness.
-6. Invalid or uncertain responses route to human review instead of stopping the run.
-7. Valid findings route to Critical or Minor treatment and draft governed user stories.
-8. Historical scans feed an I-MR control chart.
-9. An executive HTML report records the run and its governance limitations.
+**Deep evidence:** [Evidence Index](docs/EVIDENCE_INDEX.md) · [Validated executive report](evidence/executive-report.html) · **Non-technical summary:** [Plain-Language Summary](docs/PLAIN_LANGUAGE_SUMMARY.md)
+
+## The decision this project governs
+
+> **Which Salesforce Flow-governance findings require action, and what evidence supports the route?**
+
+Ordinary metadata inspection can identify configuration states, but it does not by itself provide a controlled decision trail from observation to measurement, contextual judgment, validation, routing and executive evidence. Flow Integrity separates those responsibilities.
 
 ## Architecture
 
 ```mermaid
 flowchart TD
-    SF["Salesforce Flow metadata"] --> M["Deterministic measurement"]
-    M --> AI["AI impact judgment"]
-    AI --> V["Critique and contract validation"]
-    V --> R{"Governed routing"}
-    R -->|Critical| C["Immediate-review story"]
-    R -->|Minor| B["Maintenance-backlog story"]
-    R -->|Invalid or uncertain| H["Human review queue"]
+    SF["Customer-owned Salesforce Flow metadata"] --> M["Deterministic measurement"]
+    M --> AI["Bounded AI impact judgment"]
+    AI --> C["Independent critique pass"]
+    C --> V["Deterministic contract validation"]
+    V --> R{"Governed route"}
+    R -->|Critical| CR["Immediate human review"]
+    R -->|Minor| MR["Maintenance backlog draft"]
+    R -->|Invalid / uncertain| HR["Human review queue"]
     M --> SPC["I-MR history"]
-    C --> REP["Executive report"]
-    B --> REP
-    H --> REP
+    CR --> REP["Executive evidence"]
+    MR --> REP
+    HR --> REP
     SPC --> REP
 ```
 
-## Security model
+### Decision rights
 
-- OAuth Client Credentials; no Salesforce password is stored in workflow nodes.
-- Dedicated Salesforce Integration user with the Minimum Access – API Only Integrations profile.
-- Salesforce API Integration permission set licence.
-- Permission set grants only API access and read-only setup visibility.
-- External Client App runs as the dedicated integration user, not an administrator.
-- OAuth app is admin-preapproved and bound to the integration permission set.
-- SOQL filters `NamespacePrefix = null` to exclude managed-package metadata.
-- The workflow reads Flow metadata only; it does not request business-record data.
-- Credential values are absent from this repository.
+| Decision | Deterministic code | AI | Human |
+|---|:---:|:---:|:---:|
+| Count defects/opportunities | **Authority** | No | Review |
+| Calculate DPMO/Sigma/control limits | **Authority** | No | Review |
+| Assess contextual impact | Guardrails | **Advisory** | Override |
+| Validate response contract | **Authority** | No | Review |
+| Approve remediation | No | No | **Authority** |
+| Commit work to a sprint | No | No | **Authority** |
 
-See [Security Model](docs/SECURITY_MODEL.md) for the control design.
+## Evidence-backed release snapshot
 
-## Repository structure
+Release evidence states that v1.3 executed successfully on **30 July 2026**.
 
-```text
-.
-├── README.md
-├── PROJECT_STATUS.md
-├── LICENSE
-├── SECURITY.md
-├── workflows/
-│   └── Salesforce-Governance-Sentinel-v1.3-public.json
-├── docs/
-│   ├── ARCHITECTURE.md
-│   ├── DEPLOYMENT.md
-│   ├── METHODOLOGY.md
-│   ├── GOVERNANCE_REGISTERS.md
-│   ├── RELEASE_NOTES.md
-│   ├── TEST_EVIDENCE.md
-│   └── DEMO_SCRIPT.md
-├── samples/
-│   └── validated-run-summary.json
-└── evidence/
-    ├── executive-report.html
-    └── workflow-success.png
-```
+| Measure | Result |
+|---|---:|
+| In-scope Flows | 7 |
+| Declared governance defects | 7 missing descriptions |
+| Declared opportunities | 21 |
+| DPMO | 333,333.33 |
+| Sigma level | 1.931 |
+| AI critique | VALIDATED |
+| Schema validation | PASSED |
+| Routing | 7 Minor |
+| Executive report | Generated |
+
+### Six Sigma interpretation boundary
+
+For this portfolio model:
+
+- **Unit:** one in-scope Salesforce Flow.
+- **Declared defect:** a governance condition counted by the v1.3 deterministic rule set; the validated run records missing descriptions.
+- **Opportunity denominator:** three declared governance opportunities per in-scope Flow in the validated dataset, giving 21 total opportunities for seven Flows.
+- **Input dataset:** the sanitized/controlled v1.3 validated run summarized in `samples/validated-run-summary.json` and `docs/TEST_EVIDENCE.md`.
+- **Cpk:** intentionally not reported because customer specification limits are not established.
+
+DPMO and Sigma describe this declared governance-defect model. They are not evidence of production process capability.
+
+## Security boundary
+
+- OAuth 2.0 Client Credentials.
+- Dedicated Salesforce Integration user.
+- API-only access and least-privilege permission set.
+- Customer-owned Flow metadata only.
+- Managed-package metadata excluded by `NamespacePrefix = null`.
+- No business-record retrieval is part of the stated workflow scope.
+- Repository credentials are prohibited.
+- AI output is advisory and contract-validated before routing.
+
+See [Security Threat Model](docs/SECURITY_THREAT_MODEL.md).
+
+## What this does not prove
+
+This Portfolio Preview does not establish:
+
+- production-scale reliability;
+- live-customer deployment;
+- production SLOs or operational support;
+- external certification or independent practitioner approval;
+- statistical process capability;
+- superiority over competing commercial products;
+- that every Salesforce governance defect class is covered;
+- that the current executive report exposes every intermediate priority calculation.
+
+## Executive review path
+
+1. [Executive Brief](docs/EXECUTIVE_BRIEF.md)
+2. [Plain-Language Summary](docs/PLAIN_LANGUAGE_SUMMARY.md) — for recruiters/non-technical reviewers
+3. [Who's Looking At This — Start Here By Role](docs/AUDIENCE_GUIDE.md) — nine roles, exact file per role
+4. [Evidence Index](docs/EVIDENCE_INDEX.md)
+5. [Architecture](docs/ARCHITECTURE.md)
+6. [Methodology](docs/METHODOLOGY.md)
+7. [Security Threat Model](docs/SECURITY_THREAT_MODEL.md)
+8. [PMP / PMI AI Governance Mapping](docs/PMP_AI_GOVERNANCE_MAPPING.md)
+9. [Agile Traceability](docs/AGILE_TRACEABILITY.md)
+10. [Competitive Positioning](docs/COMPETITIVE_POSITIONING.md)
+11. [Adversarial Test Catalogue](docs/ADVERSARIAL_TEST_CATALOGUE.md)
+12. [Gap Closure Matrix](docs/GAP_CLOSURE_MATRIX.md)
+13. [Quality Scorecard](docs/QUALITY_SCORECARD.md)
+14. [Final Sign-Off Gates](docs/FINAL_SIGNOFF_GATES.md)
+15. [Test Evidence](docs/TEST_EVIDENCE.md)
+16. [Release Notes](docs/RELEASE_NOTES.md)
+17. [Release Lineage](docs/RELEASE_LINEAGE.md) — reconciles this v1.3 baseline against the retained v1.4.0 audit artifact
 
 ## Import and configure
 
-1. Import the public workflow JSON into n8n.
-2. Replace `YOUR_MY_DOMAIN` in both Salesforce HTTP Request nodes.
-3. Create a Salesforce OAuth2 credential using Client Credentials grant.
-4. Create a Gemini credential.
-5. Create an n8n Data Table named `dpmo_scan_history` with the documented columns.
-6. Re-select that table in the Insert Row and Get Scan History nodes.
-7. Test the isolated Salesforce connection node.
-8. Test the filtered metadata query.
-9. Run the complete workflow manually.
+Preserve the existing deployment instructions in `docs/DEPLOYMENT.md`. The public workflow remains `workflows/Salesforce-Governance-Sentinel-v1.3-public.json`.
 
-Detailed steps and required fields are in [Deployment](docs/DEPLOYMENT.md).
+## Release status
 
-## Interpretation safeguards
+**Engineering evidence:** preserved at v1.3.
 
-- DPMO and Sigma describe declared governance defect opportunities; they are not proof of process capability.
-- Cpk is intentionally excluded because customer specification limits do not yet exist.
-- AI impact is advisory and can differ from deterministic routing severity.
-- AI does not calculate DPMO, Sigma, or control limits.
-- AI does not approve implementation, assign story points, or commit work to a sprint.
-- Critical remediation and uncertain outputs require human review.
+**Portfolio maturity:** Portfolio Preview.
 
-## Current limitation
+**Architecture:** no redesign introduced by this documentation remediation.
 
-The v1.3 report shows impact and severity but not the intermediate exposure and priority scores. A High-impact finding can still be Minor when exposure is low. The next presentation revision should display:
-
-```text
-Priority score = exposure score × impact score
-```
-
-This is a presentation enhancement, not a calculation defect.
-
-## Evidence
-
-- [Validated executive report](evidence/executive-report.html)
-- [Successful workflow execution](evidence/workflow-success.png)
-- [Test Evidence](docs/TEST_EVIDENCE.md)
-
-## Product status
-
-The workflow engine and security architecture are validated. Public repository publication and video recording are owner actions documented in the demo guide.
-
-See [Project Status](PROJECT_STATUS.md) for the exact distinction between the completed product, owner publication actions, and later commercial SaaS work.
+**Remaining portfolio-presentation item:** owner-recorded 60–90 second demo link.

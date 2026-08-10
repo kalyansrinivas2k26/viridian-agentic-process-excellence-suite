@@ -1,47 +1,32 @@
-# Release Notes
+# Release Notes — Flow Integrity
 
-## v1.3 — Secure Governed Agentic
+> This document was cited by `README.md`, `docs/EVIDENCE_INDEX.md`, and `docs/EXECUTIVE_BRIEF.md` before it existed.
 
-Released: 30 July 2026
+## v1.3 — validated engineering evidence
 
-### Added
+- Run date: 30 July 2026.
+- 7 in-scope Flows, 7 declared governance defects, 21 declared opportunities.
+- DPMO 333,333.33, Sigma 1.931.
+- AI critique VALIDATED, schema validation PASSED.
+- Routing: 7 Minor, 0 Critical, 0 Human Review.
+- This is the engineering evidence baseline referenced throughout the current documentation set.
 
-- Dedicated Salesforce API-only runtime identity
-- Salesforce OAuth Client Credentials authentication
-- Least-privilege setup-metadata permission set
-- Admin-preapproved External Client App policy
-- Customer-owned Flow filter using `NamespacePrefix = null`
-- Validated end-to-end execution evidence
-- Credential-safe public workflow export
+## Portfolio Preview repository-assurance remediation (this package)
 
-### Validated
+- Added root and project-level Portfolio Preview maturity boundaries.
+- Added Executive Documentation Standard instantiation: executive brief, evidence index, quality scorecard, security threat model, PMP/PMI AI governance mapping, final sign-off gates, competitive positioning, Agile traceability, adversarial test catalogue, gap closure matrix.
+- Added deterministic GitHub Actions repository-validation gate and SHA-256 checksum ledger tooling.
+- Added `docs/ARCHITECTURE.md`, `docs/METHODOLOGY.md`, `docs/TEST_EVIDENCE.md`, `docs/DEPLOYMENT.md`, `docs/GOVERNANCE_REGISTERS.md`, `PROJECT_STATUS.md`, and `samples/validated-run-summary.json` — previously cited by other documents in this package but not present, which meant those citations did not resolve.
+- Did **not** modify the n8n workflow, the deterministic calculation logic, or the v1.3 validated run result.
 
-- AI judgment and critique returned valid structured output
-- Deterministic final schema passed
-- Seven findings routed to Minor
-- Executive report generated
-- No secrets present in the exported workflow
+## Release-lineage reconciliation
 
-### Security correction
+A later v1.4.0 release-engineering/audit artifact exists in the owner's retained project files, but its npm/archive tooling and corresponding release state are not currently represented in the public repository being remediated.
 
-The External Client App previously ran as a System Administrator. v1.3 changes the Run As identity to the dedicated Vantix Governance Scanner integration user.
+This Portfolio Preview therefore:
+- preserves v1.3 as the canonical public executed workflow-evidence baseline;
+- records v1.4.0 as historical hardening/release-engineering lineage;
+- does not claim that v1.4.0 is a currently published GitHub Release;
+- does not import its release mechanics into this v1.3 remediation without the corresponding public artifact set.
 
-### Known limitations
-
-- Manual trigger only
-- One-page REST query; pagination not implemented
-- n8n Data Table is local to the importing instance
-- Report does not show exposure and priority score columns
-- Early control limits are statistically low-confidence
-- Fixed outbound IP restriction is pending hosting selection
-
-## v1.2 — Governed Agentic
-
-- Added critique-response validation
-- Added safe fallback for malformed AI responses
-- Added deterministic schema validation
-- Added Critical, Minor, and Human Review routing
-- Added governed story generation
-- Added run correlation ID
-- Added I-MR history and executive HTML report
-
+See `docs/RELEASE_LINEAGE.md`.

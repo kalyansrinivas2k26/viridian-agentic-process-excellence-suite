@@ -1,0 +1,4 @@
+PASS: scripts/validate_portfolio.py
+PASS: scripts/checksums.py
+
+NOTE: Full repository validation cannot pass inside this overlay directory because the existing v1.3 workflow/evidence files are intentionally not duplicated. Apply the overlay to the live repository, regenerate SHA256SUMS, then run CI.

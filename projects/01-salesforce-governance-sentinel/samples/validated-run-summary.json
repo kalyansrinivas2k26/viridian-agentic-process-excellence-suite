@@ -1,103 +1,25 @@
 {
-  "runId": "VGS-20260730082713-4RYZ4BR5",
-  "critiqueStatus": "VALIDATED",
-  "critiqueFailureReason": null,
-  "totalIssueEntries": 7,
-  "criticalCount": 0,
-  "minorCount": 7,
-  "reviewRequiredCount": 0,
-  "measurement": {
-    "inScopeFlows": 7,
-    "opportunitiesPerFlow": 3,
-    "totalOpportunities": 21,
-    "totalDefects": 7,
-    "dpmo": 333333.33,
-    "sigmaLevel": 1.931,
-    "cpk": null,
-    "cpkStatus": "EXCLUDED_NO_VALID_SPECIFICATION_LIMITS"
+  "_note": "Structured Portfolio Preview summary. Core flow/defect/DPMO/Sigma/routing values reconcile to evidence/executive-report.html for run VGS-20260730062123-IKKOFEN8. AI critique/schema fields remain documented validated-result fields and should not be treated as independently visible in that HTML report.",
+  "run_date": "2026-07-30",
+  "workflow_version": "v1.3",
+  "in_scope_flows": 7,
+  "declared_governance_defects": 7,
+  "declared_defect_type": "missing_flow_description",
+  "declared_opportunities_per_flow": 3,
+  "declared_opportunities_total": 21,
+  "dpmo": 333333.33,
+  "sigma_level": 1.931,
+  "cpk": null,
+  "cpk_reported": false,
+  "cpk_exclusion_reason": "Customer specification limits are not established for this attribute-based declared-defect model.",
+  "ai_critique_result": "VALIDATED",
+  "schema_validation_result": "PASSED",
+  "routing_summary": {
+    "critical": 0,
+    "minor": 7,
+    "human_review": 0
   },
-  "findings": [
-    {
-      "issueId": "ISSUE-001",
-      "flow": "Create_Task_for_High_Value_Practice_Deals",
-      "defects": ["Missing Description"],
-      "exposureScore": 1,
-      "impactScore": 3,
-      "priorityScore": 3,
-      "severity": "Minor",
-      "confidence": 0.9,
-      "routingDecision": "Minor"
-    },
-    {
-      "issueId": "ISSUE-002",
-      "flow": "Create_Task_for_Strategic_High_Value_Deal",
-      "defects": ["Missing Description"],
-      "exposureScore": 1,
-      "impactScore": 3,
-      "priorityScore": 3,
-      "severity": "Minor",
-      "confidence": 0.9,
-      "routingDecision": "Minor"
-    },
-    {
-      "issueId": "ISSUE-003",
-      "flow": "Set_Forecast_Category_Omitted_When_Lost",
-      "defects": ["Missing Description"],
-      "exposureScore": 1,
-      "impactScore": 3,
-      "priorityScore": 3,
-      "severity": "Minor",
-      "confidence": 0.9,
-      "routingDecision": "Minor"
-    },
-    {
-      "issueId": "ISSUE-004",
-      "flow": "Set_Probability_for_Negotiation_Deals",
-      "defects": ["Missing Description"],
-      "exposureScore": 1,
-      "impactScore": 3,
-      "priorityScore": 3,
-      "severity": "Minor",
-      "confidence": 0.9,
-      "routingDecision": "Minor"
-    },
-    {
-      "issueId": "ISSUE-005",
-      "flow": "Test_1",
-      "defects": ["Missing Description"],
-      "exposureScore": 1,
-      "impactScore": 1,
-      "priorityScore": 1,
-      "severity": "Minor",
-      "confidence": 0.7,
-      "routingDecision": "Minor"
-    },
-    {
-      "issueId": "ISSUE-006",
-      "flow": "customer_satisfaction",
-      "defects": ["Missing Description"],
-      "exposureScore": 1,
-      "impactScore": 2,
-      "priorityScore": 2,
-      "severity": "Minor",
-      "confidence": 0.9,
-      "routingDecision": "Minor"
-    },
-    {
-      "issueId": "ISSUE-007",
-      "flow": "net_promoter_score",
-      "defects": ["Missing Description"],
-      "exposureScore": 1,
-      "impactScore": 2,
-      "priorityScore": 2,
-      "severity": "Minor",
-      "confidence": 0.9,
-      "routingDecision": "Minor"
-    }
-  ],
-  "finalSchemaValidation": {
-    "status": "PASSED",
-    "errors": [],
-    "validator": "Deterministic n8n Code node contract validator v1.2"
-  }
+  "executive_report_generated": true,
+  "run_id": "VGS-20260730062123-IKKOFEN8",
+  "run_started_utc": "2026-07-30T06:21:23.649Z"
 }

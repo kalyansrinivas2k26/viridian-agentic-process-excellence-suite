@@ -1,111 +1,34 @@
-# Deployment
+# Deployment — Flow Integrity / Salesforce Governance Sentinel
+
+> This document was cited by `README.md` ("Import and configure") and `docs/EVIDENCE_INDEX.md` before it existed. It states the intended deployment/configuration controls already described in `SECURITY.md` and the project README's "Security boundary" section, in step form. It is a configuration guide, not a claim that this exact sequence has been executed against a specific external environment.
 
 ## Prerequisites
 
-- Salesforce org with API access
-- One Salesforce Integration user licence
-- Salesforce API Integration permission set licence
-- n8n instance with Data Tables
-- Gemini API credential
+- A Salesforce org (sandbox or Developer Edition) with a dedicated **API-only integration user**.
+- n8n (cloud or self-hosted) with the ability to store OAuth 2.0 Client Credentials securely in n8n's credential store — never in the workflow JSON itself.
+- A model-provider API key (Gemini, at the time of the validated run) stored the same way.
 
-## Salesforce identity
+## Salesforce-side setup
 
-Create a dedicated user:
+1. Create a Connected App configured for **OAuth 2.0 Client Credentials Flow**.
+2. Create a dedicated integration user, distinct from any human administrator account.
+3. Assign a **least-privilege permission set** scoped to read access on Flow metadata only — no broader object or record access.
+4. Confirm managed-package metadata is excluded by filtering on `NamespacePrefix = null` in the retrieval query (matches the `Get Flows - REST API` node's intended scope).
 
-| Setting | Value |
-| --- | --- |
-| User licence | Salesforce Integration |
-| Profile | Minimum Access – API Only Integrations |
-| Role | None |
-| Active | Yes |
-
-Assign the Salesforce API Integration permission set licence.
-
-Create a permission set with no user-licence restriction:
-
-```text
-VANTIX Governance Metadata Read Access
-```
-
-Enable:
-
-- API Enabled
-- View Setup and Configuration
-- View Roles and Role Hierarchy when Salesforce adds it as a dependency
-
-Do not enable Manage Flow, Customize Application, View All Data, Modify All Data, Author Apex, or metadata modification permissions.
-
-## External Client App
-
-Configure:
-
-| Setting | Value |
-| --- | --- |
-| Distribution | Local |
-| OAuth scope | Manage user data via APIs |
-| Flow | Client Credentials |
-| Permitted users | Admin approved users are pre-authorized |
-| Run As | Dedicated integration user |
-| Selected permission sets | VANTIX Governance Metadata Read Access only |
-
-Do not select a System Administrator profile. Do not include refresh-token scope.
-
-## n8n credentials
-
-Create an OAuth2 API credential:
-
-| Field | Value |
-| --- | --- |
-| Grant type | Client Credentials |
-| Token URL | `https://YOUR_MY_DOMAIN.my.salesforce.com/services/oauth2/token` |
-| Client authentication | Body |
-| Scope | Blank |
-
-Store Consumer Key and Consumer Secret only in the credential.
-
-Create the Gemini credential separately.
-
-## History table
-
-Create `dpmo_scan_history` with:
-
-| Column | Suggested type |
-| --- | --- |
-| runid | String |
-| scandate | String or Date/Time |
-| dpmo | Number |
-| sigmalevel | Number |
-| totalDefects | Number |
-| totalOpportunities | Number |
-
-After import, reselect this table in both Data Table nodes.
-
-## Import checklist
+## n8n-side setup
 
 1. Import `workflows/Salesforce-Governance-Sentinel-v1.3-public.json`.
-2. Replace `YOUR_MY_DOMAIN`.
-3. Select the Salesforce credential in both Salesforce HTTP Request nodes.
-4. Select the Gemini credential in both Gemini nodes.
-5. Select `dpmo_scan_history` in both Data Table nodes.
-6. Confirm no node contains pinned data.
-7. Execute the isolated Salesforce test node.
-8. Verify `totalSize`, `done`, and customer-owned records.
-9. Execute the complete workflow.
-10. Confirm schema status `PASSED` and download the report.
+2. Configure the Salesforce HTTP Request nodes (`Test Salesforce Connection`, `Get Flows - REST API`) with the OAuth 2.0 credential created above — stored in n8n's credential manager, never pasted into node parameters.
+3. Configure the Gemini HTTP Request nodes (`AI Severity Judgment - Gemini`, `AI Critique - Gemini`) with the model-provider API key, also via n8n's credential manager.
+4. Confirm the n8n Data Table used by `Insert row` / `Get Scan History` exists and is reachable — this is what feeds the I-MR control chart across runs.
 
-## Production hardening
+## Before publishing any evidence externally
 
-Before commercial production, add:
+- Sanitize any exported JSON, screenshot, or HTML report for org identifiers, real Flow names, and any value that could identify a live customer environment.
+- Run `scripts/validate_portfolio.py`'s secret-pattern scan locally before committing.
 
-- fixed outbound IP and Salesforce IP restrictions;
-- a schedule or authenticated webhook trigger;
-- encrypted external persistence and retention policy;
-- pagination;
-- centralized logging and alerting;
-- tenant isolation;
-- secret rotation;
-- backup and disaster recovery;
-- data-processing agreement and privacy notice;
-- role-based report access;
-- automated deletion and evidence-retention controls.
+## What this document does not establish
 
+- It does not certify that this exact sequence was followed for the validated v1.3 run — it states the intended, documented configuration.
+- It does not replace a live-org permission audit.
+- It is not a substitute for Salesforce's own Connected App / OAuth documentation for environment-specific edge cases.

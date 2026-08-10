@@ -1,34 +1,30 @@
-# Security Policy
+# Security — Flow Integrity / Salesforce Governance Sentinel
 
-## Reporting
+> Required by `scripts/validate_portfolio.py` and referenced by root `SECURITY.md`, but did not exist in the prior remediation package. Content below restates the "Security boundary" section already published in `README.md` as a dedicated file — no new control is introduced here.
 
-Do not open a public issue containing credentials, access tokens, customer metadata, Salesforce usernames, org identifiers, or production evidence. Report security concerns privately to the repository owner.
+## Boundary
 
-## Secrets
+- OAuth 2.0 Client Credentials.
+- Dedicated Salesforce Integration user, distinct from any human administrator account.
+- API-only access and a least-privilege permission set.
+- Customer-owned Flow metadata only.
+- Managed-package metadata excluded by `NamespacePrefix = null`.
+- No business-record retrieval is part of the stated workflow scope.
+- Repository credentials are prohibited — see `scripts/validate_portfolio.py`'s secret-pattern scan.
+- AI output (Gemini severity judgment and critique) is advisory and contract-validated before routing; it has no write path to defect counts, DPMO, Sigma, or control limits.
 
-This repository must never contain:
+## Deployment configuration
 
-- Salesforce Consumer Key or Consumer Secret
-- OAuth access or refresh tokens
-- Salesforce passwords or security tokens
-- Gemini API keys
-- n8n credential IDs tied to a live instance
-- customer records or personally identifiable information
+See `docs/DEPLOYMENT.md` for the step-by-step setup of the above.
 
-Credentials belong only in n8n's encrypted credential store or an approved secrets manager.
+## Threat model
 
-## Supported release
+See `docs/SECURITY_THREAT_MODEL.md` for the full OWASP LLM/GenAI-aligned review, including open evidence gaps (dedicated prompt-injection test IDs are not yet published).
 
-Security fixes are applied to the latest release only. The validated release is `v1.3`.
+## Reporting a vulnerability
 
-## Runtime controls
+Follow the process in the root `SECURITY.md`. Do not place secret material or exploit details in a public GitHub issue.
 
-- Use one External Client App and one dedicated integration user per integration.
-- Use OAuth Client Credentials for server-to-server execution.
-- Keep the integration user API-only.
-- Grant access through task-specific permission sets.
-- Do not use a System Administrator as the Run As user.
-- Rotate the Client Secret after suspected exposure.
-- Revoke the External Client App or deactivate the integration user to stop access immediately.
-- Restrict outbound IP addresses when the n8n hosting plan provides fixed egress.
+## No certification claim
 
+This file and the linked threat model are portfolio evidence only. They are not a penetration test, external security audit, or certification.

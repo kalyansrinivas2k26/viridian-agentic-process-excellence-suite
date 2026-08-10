@@ -1,36 +1,15 @@
-# Project Status
+# Project Status — Flow Integrity
 
-## Project 1 product gate
+> Cited by `README.md` and `docs/EVIDENCE_INDEX.md` before it existed. This is a single-page status rollup; the authoritative detail lives in `docs/FINAL_SIGNOFF_GATES.md` and `docs/GAP_CLOSURE_MATRIX.md` — this file does not introduce any new status claim.
 
-**Status: COMPLETE AND VALIDATED**
+| Area | Status |
+|---|---|
+| Engineering (n8n workflow) | Complete and validated at v1.3 |
+| Documentation set (this package) | Complete pending the open items below |
+| CI (`portfolio-validation.yml`) | Not yet run publicly — no `.github/workflows/` present on `main` as of this remediation |
+| Checksum ledger (`SHA256SUMS`) | Must be regenerated after this package is merged |
+| Demo (60–90s) | Not yet recorded |
+| v1.4.0 lineage question | **Open — see `docs/RELEASE_NOTES.md`** |
+| External practitioner review | Not obtained, not claimed |
 
-The working Salesforce Governance Sentinel v1.3 has passed:
-
-- secure Salesforce authentication;
-- least-privilege authorization;
-- customer-owned metadata scoping;
-- deterministic measurement;
-- AI judgment and critique;
-- schema validation;
-- three-way governed routing;
-- history and I-MR calculation;
-- executive report generation;
-- Critical, Minor, and malformed-response tests.
-
-## Portfolio publication gate
-
-**Status: READY FOR OWNER PUBLICATION**
-
-The repository package is prepared. The following actions require the owner because they involve personal accounts, public representation, or narration:
-
-1. Create or connect a GitHub account.
-2. Create the repository and publish this package.
-3. Record the Loom/video walkthrough.
-4. Add the final video URL to the README.
-
-## Commercial production gate
-
-**Status: NOT YET A COMMERCIAL SaaS**
-
-Commercial deployment requires tenant isolation, production hosting, fixed egress, retention controls, legal/privacy documents, monitoring, billing, support operations, and customer onboarding. Those belong to a later product phase and are not defects in this portfolio MVP.
-
+**Overall disposition:** Portfolio Preview, PASS WITH MINOR / EVIDENCE-CLOSURE ITEMS. See `docs/FINAL_SIGNOFF_GATES.md` for the gate-by-gate breakdown.

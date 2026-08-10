@@ -1,83 +1,44 @@
-# Test Evidence
+# Test Evidence — Flow Integrity
 
-## Validated production-style run
+> This document was cited by `docs/EVIDENCE_INDEX.md`, `docs/EXECUTIVE_BRIEF.md`, and `docs/PMP_AI_GOVERNANCE_MAPPING.md` before it existed. It states what the validated v1.3 run actually recorded. It does **not** claim any item from `docs/ADVERSARIAL_TEST_CATALOGUE.md` has been executed — those remain explicitly open, per that document's own closure rule.
 
-| Field | Result |
-| --- | --- |
-| Date | 2026-07-30 |
-| Run ID | `VGS-20260730082713-4RYZ4BR5` |
-| Workflow | Salesforce Governance Sentinel v1.3 – Secure Governed Agentic |
-| Connected nodes | All green |
-| In-scope records | 7 |
-| Managed-package records | Excluded |
-| AI judgment | Valid JSON |
-| Critique | VALIDATED |
-| Final schema | PASSED |
-| Critical | 0 |
-| Minor | 7 |
-| Human Review | 0 |
-| Report | Generated |
+## Validated run — recorded result
 
-## Security tests
+| Measure | Result |
+|---|---:|
+| Run date | 30 July 2026 |
+| In-scope Flows | 7 |
+| Declared governance defects | 7 (missing description) |
+| Declared opportunities | 21 |
+| DPMO | 333,333.33 |
+| Sigma level | 1.931 |
+| AI critique | VALIDATED |
+| Schema validation | PASSED |
+| Routing result | 7 Minor, 0 Critical, 0 Human Review |
+| Executive report | Generated |
 
-| Test | Result |
-| --- | --- |
-| API-only user blocked from Salesforce UI | Passed |
-| OAuth Client Credentials token obtained | Passed |
-| `/limits` endpoint called as integration identity | Passed |
-| FlowDefinitionView query permitted | Passed |
-| Managed-package records excluded | Passed |
-| Runtime no longer uses administrator credential | Passed |
-| Export secret scan | Passed |
+Evidence sources:
+- `evidence/executive-report.html` directly corroborates the run ID/date, 7 Flows, 7 defects, DPMO 333,333.33, Sigma 1.931 and 0/7/0 routing.
+- `samples/validated-run-summary.json` is the structured Portfolio Preview summary.
+- AI critique `VALIDATED` and schema validation `PASSED` are documented validated-result fields; they are not independently displayed by the preserved HTML report.
 
-## Routing tests
+## What "schema validation PASSED" means here
 
-### Synthetic Critical
+The `Validate Final Output Schema` node checked that the AI-produced response for this run conformed to the required contract (expected fields, types, and severity enum values) before the result was allowed to reach the routing/reporting stages. A PASS means the contract held for this run's actual AI output — it does not mean every possible malformed-input scenario was tried against it.
 
-- Priority: Immediate Escalation
-- Human approval required
-- Story points not auto-assigned
-- Sprint placement remains a human decision
-- Result: Passed
+## What "AI critique VALIDATED" means here
 
-### Synthetic Minor
+The second-pass `AI Critique - Gemini` node reviewed the first-pass severity judgment and did not flag it as unsupported or inconsistent for this run's data. This is one execution of the critique mechanism, not a statement about its reliability across many adversarial inputs.
 
-- Priority: Backlog – No Immediate Urgency
-- Human backlog review required
-- Effort remains team-estimated
-- Result: Passed
+## Design-level tests vs. executed tests — explicit distinction
 
-### Invalid AI response
+| Test class | Status |
+|---|---|
+| Contract/schema validation against real AI output | **Executed** — this run |
+| AI critique pass against real AI output | **Executed** — this run |
+| Fail-closed routing under valid Minor classification | **Executed** — this run (7 Minor routed correctly) |
+| Fail-closed routing under invalid/malformed AI output | **Not executed** — design present (`Human Review Queue` node), no negative-case run recorded |
+| Prompt-injection resistance (PI-01) | **Not executed** — see `docs/ADVERSARIAL_TEST_CATALOGUE.md` |
+| AI attempting to overwrite deterministic DPMO/Sigma (AI-03) | **Not executed** — architecturally prevented (AI has no write path to those nodes), but no adversarial run has attempted and recorded this |
 
-- Malformed JSON did not terminate the workflow.
-- Findings were marked unassigned.
-- All entries routed to Review Required.
-- Result: Passed
-
-### Invalid critique response
-
-- Malformed critique did not terminate the workflow.
-- Self-critique status recorded the parsing failure.
-- Final schema remained deterministic.
-- Result: Passed
-
-## Calculation check
-
-```text
-Flows = 7
-Opportunities per Flow = 3
-Total opportunities = 21
-Defects = 7
-DPMO = 7 / 21 × 1,000,000 = 333,333.33
-Sigma = 1.931
-```
-
-## Evidence files
-
-- `evidence/executive-report.html`
-- `evidence/workflow-success.png`
-
-## Known presentation observation
-
-The report does not currently display exposure and priority score columns. This can make High impact and Minor routing look inconsistent without the scoring explanation. The underlying output contains the values and the routing result is valid.
-
+Do not represent the "Not executed" rows above as closed. Closing them is the job of `docs/ADVERSARIAL_TEST_CATALOGUE.md`'s closure rule, not this document.

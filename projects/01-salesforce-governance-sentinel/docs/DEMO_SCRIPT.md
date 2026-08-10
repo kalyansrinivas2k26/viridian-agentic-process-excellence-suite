@@ -1,65 +1,74 @@
-# Demo Script
+# 60–90 Second Demo Script — Flow Integrity
 
-Target length: 5–7 minutes.
+> Recording status: **PENDING OWNER RECORDING**.  
+> This script is a presentation aid only; it is not execution evidence.
 
-## 1. Business problem — 45 seconds
+## 0–10 seconds — Problem and control boundary
 
-“Salesforce automation grows quickly, but governance documentation and review often remain manual. This Sentinel identifies measurable governance defects, adds contextual AI judgment, and converts validated findings into human-controlled remediation.”
+Open the Project README.
 
-## 2. Security — 60 seconds
+Say:
+
+“Flow Integrity converts Salesforce Flow metadata into deterministic governance measurements, bounded AI judgment and human-controlled remediation. AI does not own the measured facts.”
+
+## 10–25 seconds — Source and deterministic measurement
+
+Open the public workflow JSON and point to the Salesforce metadata query and deterministic calculation nodes.
+
+Show that:
+- only customer-owned Flow metadata is in scope;
+- defect/opportunity counts are code-owned;
+- DPMO and Sigma are calculated deterministically.
+
+## 25–40 seconds — AI is bounded, not authoritative
+
+Show the AI assessment, critique and deterministic validation stages.
+
+Say:
+
+“The model assesses context and confidence, but its response is challenged and validated before routing. Invalid or uncertain output is sent to human review.”
+
+## 40–55 seconds — Real preserved run evidence
+
+Open `evidence/executive-report.html`.
 
 Show:
+- Run ID `VGS-20260730062123-IKKOFEN8`;
+- 7 in-scope Flows;
+- 7 governance defects;
+- DPMO `333,333.33`;
+- Sigma `1.931`;
+- 0 Critical / 7 Minor / 0 Human Review.
 
-- dedicated API-only integration user;
-- least-privilege permission set;
-- External Client App running as that user;
-- OAuth credential selected in n8n.
+State the boundary:
 
-Do not display Consumer Key, Consumer Secret, passwords, tokens, usernames, or live credential details.
+“These are governance defect-density indicators for the declared opportunity model, not Cpk or production process capability.”
 
-## 3. Workflow — 90 seconds
+## 55–70 seconds — Failure-safe governance
 
-Walk left to right:
+Return to the architecture diagram or workflow routing.
 
-1. Salesforce metadata query
-2. deterministic measurement
-3. AI judgment
-4. critique and validation
-5. three-way routing
-6. story drafting
-7. scan history and I-MR
-8. executive report
+Show the Critical, Minor and Review Required paths.
 
-Explain that AI cannot modify measured facts.
+Say:
 
-## 4. Execute — 60 seconds
+“Measured facts stay deterministic; AI remains advisory; uncertain or invalid output cannot silently become an autonomous action.”
 
-Run the workflow and show all connected production nodes turning green. Open the schema validator and show `PASSED`.
+## 70–90 seconds — Credibility close
 
-## 5. Evidence — 90 seconds
+Open:
+- `docs/EVIDENCE_INDEX.md`;
+- `docs/QUALITY_SCORECARD.md`;
+- `docs/SECURITY_THREAT_MODEL.md`.
 
-Open the report and explain:
+Say:
 
-- seven in-scope customer Flows;
-- seven description defects;
-- 21 declared opportunities;
-- DPMO and Sigma;
-- Cpk exclusion;
-- issue register;
-- control-chart confidence warning;
-- human-controlled remediation.
+“The repository publishes the evidence, the limitations and the unearned points. The Portfolio Preview is intentionally not presented as production readiness or external certification.”
 
-## 6. Close — 30 seconds
+## Recording rule
 
-“This is not a decorative AI dashboard. It is a traceable Salesforce governance tool combining secure API architecture, deterministic Six Sigma measurement, governed AI judgment, Agile remediation drafting, and executive evidence.”
-
-## Recording checklist
-
-- Use sanitized demo data only.
-- Hide browser bookmarks and personal email.
-- Hide Salesforce org URL if publishing publicly.
-- Hide n8n credential screens.
-- Use 1080p or higher.
-- Add captions.
-- Link the video near the top of the README.
-
+When the real demo is recorded:
+1. use the actual repository and actual preserved evidence;
+2. do not simulate a green CI run;
+3. do not claim adversarial cases as executed unless their evidence exists;
+4. place the final link in the root README and Project README.

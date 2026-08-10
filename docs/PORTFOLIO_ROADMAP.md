@@ -1,62 +1,29 @@
-# Portfolio Roadmap
+# VANTIX Portfolio Roadmap
 
-## Project 1 — Salesforce Governance Sentinel
+> This roadmap records portfolio state only. It does not reopen closed architecture and does not treat future work as completed evidence.
 
-Status: Validated v1.3
+## Current public portfolio
 
-Purpose: inspect Salesforce Flow metadata, measure governance defects, apply governed AI judgment, route remediation, and create executive evidence.
+| Sequence | Repository | Current portfolio position |
+|---|---|---|
+| 1 | Flow Integrity — Salesforce Governance Sentinel | Portfolio Preview; validated v1.3 engineering evidence; repository-assurance remediation in progress |
+| 2 | VANTIX Agile Delivery & Admin Workload Sentinel | Portfolio Preview v0.1.1; architecture closed |
+| 3 | VANTIX Control Value | Preserved predecessor/lineage repository; presentation-lineage cleanup separately governed |
+| 4 | VANTIX Attestor | Portfolio Preview v0.1.1; architecture closed |
+| 5 | VANTIX Synthesis | **Not started**; must not begin until Projects 1–4 pass the portfolio freeze gate |
+| 6 | AI Pilot-to-BAU Adoption Assurance | Case-study evidence project; no synthetic workflow should be invented |
 
-## Project 2 — PMP Risk Radar
+## Portfolio rule
 
-Status: Planned
+A future project is not shown as implemented until its own repository evidence exists.
 
-Purpose: cross-reference Salesforce release changes against actual org customization inventory.
+Projects 1–4 must not be reopened for architecture redesign unless a verified defect, security issue or factual error requires it.
 
-Planned outputs:
+## Project 1 remaining items
 
-- org-specific relevance judgment;
-- probability × impact score;
-- RAID log entry;
-- response owner and due date;
-- executive heat map;
-- human approval;
-- reused Salesforce metadata and report components.
+1. Commit the documentation/CI remediation.
+2. Regenerate the repository checksum ledger after the final file set is fixed.
+3. Obtain a green public GitHub Actions run.
+4. Record/link the 60–90 second owner demo required by the current Executive Documentation Standard.
 
-## Project 3 — Scrum Velocity Intelligence Agent
-
-Status: Planned
-
-Purpose: distinguish common-cause sprint variation from delivery-system signals and recurring institutional-memory failures.
-
-Planned outputs:
-
-- sprint-history ingestion;
-- I-MR control charts;
-- SPI and CPI calculations;
-- scope-creep signals;
-- recurring-issue detection;
-- governed escalation;
-- retrospective evidence.
-
-## Shared platform components
-
-- credential and secret-management conventions;
-- run correlation IDs;
-- deterministic calculation library;
-- AI output contracts;
-- critique and fallback patterns;
-- human-approval policy;
-- executive report design;
-- evidence manifest;
-- security and governance registers.
-
-## Commercialization sequence
-
-1. Validate all three projects as portfolio tools.
-2. Standardize shared workflow components.
-3. Add fixed-egress hosting, monitoring, and durable storage.
-4. Add tenant isolation and customer onboarding.
-5. Add retention, privacy, and contractual controls.
-6. Add billing and entitlement management.
-7. Pilot with controlled customer metadata.
-
+No n8n redesign is included in these remaining items.

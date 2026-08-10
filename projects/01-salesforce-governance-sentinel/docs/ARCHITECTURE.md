@@ -1,69 +1,38 @@
-# Architecture
+# Architecture — Flow Integrity / Salesforce Governance Sentinel
 
-## Design objective
+> This document was missing from the previous remediation package even though five other files cited it as evidence. It is written directly from the node structure in `workflows/Salesforce-Governance-Sentinel-v1.3-public.json`, not from a redesigned or reimagined architecture. No node, connection, or calculation described below differs from the validated v1.3 workflow.
 
-Separate measurement, judgment, validation, action drafting, and approval so that probabilistic AI never controls measured facts or executes remediation.
+## Purpose
 
-## Runtime sequence
+Show how the workflow physically separates deterministic measurement, bounded AI judgment, contract validation, and human-controlled routing — the same separation claimed in the README's decision-rights table — so a Salesforce architect or engineering reviewer can verify the claim against the real node graph instead of taking it on faith.
 
-```mermaid
-sequenceDiagram
-    participant N as n8n
-    participant O as Salesforce OAuth
-    participant S as Salesforce API
-    participant G as Gemini
-    participant H as Human owner
+## Pipeline, in execution order
 
-    N->>O: Client ID and secret
-    O-->>N: Short-lived token
-    N->>S: Query customer-owned Flow metadata
-    S-->>N: FlowDefinitionView records
-    N->>N: Calculate defects, DPMO, Sigma
-    N->>G: Request contextual impact judgment
-    G-->>N: Structured assessment
-    N->>G: Request critique
-    G-->>N: Critique result
-    N->>N: Validate contract and route
-    N-->>H: Draft stories or review queue
-    N->>N: Store history and generate report
-```
+| Stage | Representative node(s) in the workflow JSON | Authority |
+|---|---|---|
+| Trigger | `When clicking 'Execute workflow'` | Manual/owner |
+| Connect | `Test Salesforce Connection` | Deterministic |
+| Retrieve | `Get Flows - REST API` | Deterministic (Salesforce REST, OAuth Client Credentials) |
+| Test fixture path | `Synthetic Test Fixture - Flows` | Deterministic, isolated from the live retrieval path |
+| Measurement | `Calculate DPMO - Flows`, `Calculate DPMO - Synthetic (Test)` | **Code-owned.** AI has no node in this path. |
+| Control chart | `Calculate Control Chart - I-MR` | Deterministic |
+| History | `Insert row`, `Get Scan History` (n8n Data Table) | Deterministic |
+| AI judgment | `Build Gemini Prompt` → `AI Severity Judgment - Gemini` | **Bounded AI.** Prompt is code-constructed; output is not yet trusted. |
+| Critique | `Build Critique Prompt` → `AI Critique - Gemini` → `Merge Critique Results` | Second-pass AI check on the first AI output — this is the "critique" referenced elsewhere in the docs, and it is a real second model call, not a documentation claim |
+| Routing | `Route by Severity` (switch node) | Deterministic logic consumes the (critiqued) AI severity to route Critical vs. Minor |
+| Story drafting | `Generate Story - Critical`, `Generate Story - Minor` | Draft text only — see `AGILE_TRACEABILITY.md` for why this never becomes a sprint commitment |
+| Consolidation | `Generate Issue Log`, `Merge AI Judgment into Issue Log`, `Split Issue Entries`, `Initialize Run Context` | Deterministic |
+| Contract validation | `Validate Final Output Schema` | **This is the deterministic gate** that catches malformed/incomplete AI output before anything downstream trusts it |
+| Fail-closed path | `Human Review Queue` | Reached when validation fails or output is uncertain — not an optional branch, it's wired into the graph |
+| Synchronization | `Synchronize Findings and Control Chart` (merge node) | Deterministic |
+| Reporting | `Build Executive HTML Report` → `Create Downloadable HTML File` | Deterministic templating over validated data |
 
-## Trust boundaries
+## Why this satisfies "deterministic before AI"
 
-| Boundary | Control |
-| --- | --- |
-| n8n to Salesforce | OAuth Client Credentials |
-| OAuth app to user | Fixed Run As integration identity |
-| User to Salesforce metadata | API-only profile and least-privilege permission set |
-| Salesforce packages to customer scope | `NamespacePrefix = null` |
-| Measured facts to AI | AI receives facts but cannot rewrite deterministic calculations |
-| AI output to routing | Schema and consistency validation |
-| Draft remediation to execution | Human approval required |
-| Historical data to control chart | n8n Data Table with run correlation ID |
+Two separate DPMO-calculation nodes exist (`Calculate DPMO - Flows` and the synthetic-test variant), and neither sits downstream of an AI node. The AI nodes (`AI Severity Judgment - Gemini`, `AI Critique - Gemini`) only ever feed into `Route by Severity` and `Validate Final Output Schema` — both deterministic consumers, not producers, of the numbers that matter for Six Sigma reporting.
 
-## Components
+## What this document does not claim
 
-| Component | Responsibility |
-| --- | --- |
-| Initialize Run Context | Generates correlation ID and run timestamp |
-| Get Flows – REST API | Reads in-scope Flow metadata |
-| Calculate DPMO – Flows | Measures defects and Six Sigma indicators |
-| Generate Issue Log | Creates deterministic issue records |
-| Build Gemini Prompt | Constrains the impact-assessment contract |
-| AI Severity Judgment | Provides contextual judgment |
-| Merge AI Judgment | Validates and combines judgment with measured findings |
-| Build Critique Prompt | Creates independent review request |
-| AI Critique | Reviews consistency |
-| Merge Critique Results | Applies critique or safe fallback |
-| Validate Final Output Schema | Enforces the final data contract |
-| Route by Severity | Routes Critical, Minor, and Review Required |
-| Story generators | Draft remediation stories without committing work |
-| Human Review Queue | Preserves uncertain findings |
-| Data Table nodes | Store and retrieve measurement history |
-| I-MR calculation | Calculates statistical control limits |
-| Executive report | Produces portable decision evidence |
-
-## Scalability
-
-The current query returns one REST page. Before using the workflow in a large org, implement `nextRecordsUrl` pagination, rate-limit handling, execution concurrency limits, and report pagination. The deterministic contract and routing model can remain unchanged.
-
+- It does not claim the workflow has been executed at production scale.
+- It does not claim the AI critique node catches every possible malformed response — see `docs/ADVERSARIAL_TEST_CATALOGUE.md` for what remains unexecuted.
+- It is a structural description of the real workflow, not a substitute for `docs/DEPLOYMENT.md` (runtime configuration) or `docs/TEST_EVIDENCE.md` (what was actually validated in the recorded run).
